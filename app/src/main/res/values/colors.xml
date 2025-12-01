@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Colores principales: Gris, Rojo y Blanco -->
+    <color name="primary_red">#DC143C</color>
+    <color name="primary_red_dark">#B71C1C</color>
+    <color name="primary_red_light">#FF5252</color>
+    
+    <color name="primary_gray">#616161</color>
+    <color name="primary_gray_dark">#424242</color>
+    <color name="primary_gray_light">#9E9E9E</color>
+    
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    
+    <!-- Colores de fondo -->
+    <color name="background_light">#FAFAFA</color>
+    <color name="background_white">#FFFFFF</color>
+    <color name="background_gray">#F5F5F5</color>
+    
+    <!-- Colores de texto -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="text_hint">#9E9E9E</color>
+    
+    <!-- Colores de estado -->
+    <color name="success">#4CAF50</color>
+    <color name="error">#DC143C</color>
+    <color name="warning">#FF9800</color>
+    <color name="info">#2196F3</color>
+    
+    <!-- Colores de botones -->
+    <color name="button_primary">#DC143C</color>
+    <color name="button_primary_pressed">#B71C1C</color>
+    <color name="button_secondary">#616161</color>
+    <color name="button_secondary_pressed">#424242</color>
+</resources>
+
+

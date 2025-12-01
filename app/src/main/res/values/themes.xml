@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.DoHealthHandheld" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primary_red</item>
+        <item name="colorPrimaryDark">@color/primary_red_dark</item>
+        <item name="colorAccent">@color/primary_red</item>
+        <item name="android:statusBarColor">@color/primary_red_dark</item>
+        <item name="android:windowBackground">@color/background_white</item>
+    </style>
+    
+    <style name="Theme.DoHealthHandheld.Splash" parent="Theme.DoHealthHandheld">
+        <item name="android:windowBackground">@color/primary_red</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+</resources>
+
+

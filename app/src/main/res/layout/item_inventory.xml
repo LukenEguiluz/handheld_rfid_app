@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_medium"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/positionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="#1"
+            android:textColor="@color/primary_red"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold"
+            android:minWidth="40dp" />
+
+        <TextView
+            android:id="@+id/dataText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Datos del tag o código"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_size_medium"
+            android:fontFamily="monospace"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_small" />
+
+        <TextView
+            android:id="@+id/repeatCountText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="×2"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_small"
+            android:textStyle="bold"
+            android:background="@color/primary_red"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/margin_small">
+
+        <TextView
+            android:id="@+id/modeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RFID"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_small"
+            android:background="@color/primary_gray"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp" />
+
+        <TextView
+            android:id="@+id/rssiText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="RSSI: -50 dBm"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_size_small"
+            android:layout_marginStart="@dimen/margin_small"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/timeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12:00:00"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_size_small" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/primary_gray"
+        android:alpha="0.3"
+        android:layout_marginTop="@dimen/margin_small" />
+
+</LinearLayout>
+

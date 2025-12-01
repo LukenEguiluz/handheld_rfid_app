@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">doHealth Handheld</string>
+    
+    <!-- Splash -->
+    <string name="splash_loading">Cargando...</string>
+    
+    <!-- Conexión -->
+    <string name="connection_title">Conectar Dispositivo</string>
+    <string name="scanning_devices">Buscando dispositivos...</string>
+    <string name="no_devices_found">No se encontraron dispositivos</string>
+    <string name="connecting">Conectando...</string>
+    <string name="connected">Conectado</string>
+    <string name="disconnected">Desconectado</string>
+    <string name="connection_failed">Error al conectar</string>
+    <string name="bluetooth_not_enabled">Bluetooth no está activado</string>
+    <string name="enable_bluetooth">Activar Bluetooth</string>
+    <string name="scan_again">Buscar de nuevo</string>
+    <string name="device_name">Dispositivo: %1$s</string>
+    <string name="device_address">Dirección: %1$s</string>
+    
+    <!-- Modo de operación -->
+    <string name="select_mode">Seleccionar Modo</string>
+    <string name="mode_rfid">RFID</string>
+    <string name="mode_barcode">Código de Barras</string>
+    <string name="mode_rfid_description">Lectura de tags RFID UHF</string>
+    <string name="mode_barcode_description">Escaneo de códigos de barras y QR</string>
+    
+    <!-- Inventario -->
+    <string name="inventory_title">Inventario</string>
+    <string name="start_inventory">Iniciar Inventario</string>
+    <string name="stop_inventory">Detener Inventario</string>
+    <string name="inventory_running">Inventario en curso...</string>
+    <string name="inventory_stopped">Inventario detenido</string>
+    <string name="tags_count">Tags: %1$d</string>
+    <string name="scans_count">Escaneos: %1$d</string>
+    <string name="clear_data">Limpiar Datos</string>
+    <string name="export_data">Exportar</string>
+    <string name="send_data">Enviar a Servidor</string>
+    <string name="no_data">No hay datos para exportar</string>
+    
+    <!-- Configuración RFID -->
+    <string name="config_title">Configuración RFID</string>
+    <string name="power_level">Potencia RF (dBm)</string>
+    <string name="power_level_hint">Rango: 0-26 dBm</string>
+    <string name="q_value">Valor Q</string>
+    <string name="session">Sesión</string>
+    <string name="antenna">Antena</string>
+    <string name="save_config">Guardar Configuración</string>
+    <string name="load_config">Cargar Configuración</string>
+    <string name="config_saved">Configuración guardada</string>
+    <string name="config_error">Error al guardar configuración</string>
+    
+    <!-- Descripciones de configuración -->
+    <string name="power_level_desc">Controla la potencia de salida del transmisor RFID. Mayor potencia = mayor rango de lectura, pero más consumo de batería. Rango: 0-33 dBm</string>
+    <string name="q_value_desc">Valor inicial Q para el algoritmo de anti-colisión. Q ≈ log2(cantidad de tags). Q=4 para ~16 tags, Q=7 para ~128 tags. Rango: 0-15</string>
+    <string name="session_desc">Sesión RFID a usar para el inventario. 0=S0, 1=S1, 2=S2, 3=S3. Rango: 0-3</string>
+    <string name="antenna_desc">Selección de antenas activas (bitmask). 1=Antena 1, 2=Antena 2, 3=Antenas 1 y 2, etc.</string>
+    <string name="filter_time_desc">Tiempo durante el cual se filtran tags duplicados después de una lectura exitosa. 0=sin filtro. Rango: 0-255 segundos</string>
+    <string name="buzzer_time_desc">Duración del sonido del buzzer al completar operación. Unidad: 10ms. 0=sin sonido. Rango: 0-255</string>
+    <string name="polling_interval_desc">Intervalo entre consultas de inventario. Unidad: 10ms. Rango: 0-255</string>
+    <string name="work_mode_desc">Modo de operación: 0=Respuesta (espera comandos), 1=Activo (envía datos automáticamente), 2=Trigger (controlado por gatillo)</string>
+    <string name="inquiry_area_desc">Área de memoria del tag a consultar: EPC, TID, USER o combinaciones</string>
+    
+    <!-- Exportación -->
+    <string name="export_success">Datos exportados exitosamente</string>
+    <string name="export_error">Error al exportar datos</string>
+    <string name="export_excel">Exportar a Excel</string>
+    <string name="export_csv">Exportar a CSV</string>
+    
+    <!-- Envío a servidor -->
+    <string name="send_success">Datos enviados exitosamente</string>
+    <string name="send_error">Error al enviar datos</string>
+    <string name="send_loading">Enviando datos...</string>
+    <string name="server_url">URL del Servidor</string>
+    <string name="server_url_hint">https://api.ejemplo.com/inventory</string>
+    
+    <!-- General -->
+    <string name="ok">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="retry">Reintentar</string>
+    <string name="settings">Configuración</string>
+    <string name="back">Atrás</string>
+    <string name="menu">Menú</string>
+</resources>
+

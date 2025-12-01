@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.DoHealthHandheld.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.DoHealthHandheld.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>
+
+
