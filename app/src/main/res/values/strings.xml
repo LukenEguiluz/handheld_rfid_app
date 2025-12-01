@@ -33,6 +33,7 @@
     <string name="inventory_running">Inventario en curso...</string>
     <string name="inventory_stopped">Inventario detenido</string>
     <string name="tags_count">Tags: %1$d</string>
+    <string name="products_count">Productos: %1$d</string>
     <string name="scans_count">Escaneos: %1$d</string>
     <string name="clear_data">Limpiar Datos</string>
     <string name="export_data">Exportar</string>

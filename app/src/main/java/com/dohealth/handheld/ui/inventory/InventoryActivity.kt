@@ -50,7 +50,7 @@ class InventoryActivity : AppCompatActivity(), IOnNotifyCallback {
     private var pendingExportContent: String? = null
     // Deduplicación temporal: código -> timestamp de última lectura
     private val recentBarcodeReads = mutableMapOf<String, Long>()
-    private val BARCODE_DEDUP_TIME_MS = 500L // No insertar el mismo código si se leyó hace menos de 500ms
+    private val BARCODE_DEDUP_TIME_MS = 500L // No insertar el mismo código si se leyó hace menos de 500ms (evitar spam)
     
     // Launcher para crear documento (selector de archivos)
     private val createDocumentLauncher = registerForActivityResult(ActivityResultContracts.CreateDocument("text/plain")) { uri ->
@@ -77,6 +77,9 @@ class InventoryActivity : AppCompatActivity(), IOnNotifyCallback {
         // Mostrar mensaje de lista vacía inicialmente
         binding.emptyListText.visibility = android.view.View.VISIBLE
         binding.itemsRecyclerView.visibility = android.view.View.GONE
+        
+        // Inicializar contadores con el texto correcto según el modo y empezar en 0
+        initializeCounts()
         
         // Inicializar estado del botón
         updateStartStopButton()
@@ -243,8 +246,23 @@ class InventoryActivity : AppCompatActivity(), IOnNotifyCallback {
         val uniqueCount = uniqueInventoryItems.size
         val totalCount = allInventoryItems.size
         
-        binding.tagsCountText.text = getString(R.string.tags_count, uniqueCount)
+        // En modo código de barras mostrar "Productos", en modo RFID mostrar "Tags"
+        if (mode == MODE_BARCODE) {
+            binding.tagsCountText.text = getString(R.string.products_count, uniqueCount)
+        } else {
+            binding.tagsCountText.text = getString(R.string.tags_count, uniqueCount)
+        }
         binding.scansCountText.text = getString(R.string.scans_count, totalCount)
+    }
+    
+    private fun initializeCounts() {
+        // Inicializar contadores en 0 con el texto correcto según el modo
+        if (mode == MODE_BARCODE) {
+            binding.tagsCountText.text = getString(R.string.products_count, 0)
+        } else {
+            binding.tagsCountText.text = getString(R.string.tags_count, 0)
+        }
+        binding.scansCountText.text = getString(R.string.scans_count, 0)
     }
     
     private fun updateInventoryList() {
@@ -270,9 +288,9 @@ class InventoryActivity : AppCompatActivity(), IOnNotifyCallback {
     private fun clearData() {
         allInventoryItems.clear()
         uniqueInventoryItems.clear()
-        recentBarcodeReads.clear() // Limpiar también el mapa de deduplicación
+        recentBarcodeReads.clear() // Limpiar también el mapa de deduplicación temporal
         inventoryAdapter.submitList(emptyList())
-        updateCounts()
+        initializeCounts() // Reinicializar contadores en 0 con el texto correcto según el modo
         binding.emptyListText.visibility = android.view.View.VISIBLE
         binding.itemsRecyclerView.visibility = android.view.View.GONE
     }
@@ -335,15 +353,16 @@ class InventoryActivity : AppCompatActivity(), IOnNotifyCallback {
             
             // Validar que sea un código de barras válido
             if (barcodeData.isNotEmpty() && isValidBarcode(barcodeData)) {
-                // Deduplicación temporal
                 val currentTime = System.currentTimeMillis()
+                
+                // Deduplicación temporal: evitar spam de lecturas muy rápidas
                 val lastReadTime = recentBarcodeReads[barcodeData]
                 if (lastReadTime != null && (currentTime - lastReadTime) < BARCODE_DEDUP_TIME_MS) {
                     android.util.Log.d("InventoryActivity", "Código de barras duplicado reciente desde onNotify(bytes), ignorando: $barcodeData")
                     return
                 }
                 
-                // Registrar esta lectura
+                // Registrar esta lectura para deduplicación temporal
                 recentBarcodeReads[barcodeData] = currentTime
                 
                 android.util.Log.d("InventoryActivity", "✓ Código de barras desde onNotify(bytes): $barcodeData")
@@ -359,14 +378,17 @@ class InventoryActivity : AppCompatActivity(), IOnNotifyCallback {
                 
                 runOnUiThread {
                     allInventoryItems.add(newItem)
+                    // Actualizar o agregar item único (incrementar contador si ya existe)
                     val existingItem = uniqueInventoryItems[barcodeData]
                     if (existingItem != null) {
                         uniqueInventoryItems[barcodeData] = existingItem.copy(
                             readCount = existingItem.readCount + 1,
                             timestamp = currentTime
                         )
+                        android.util.Log.d("InventoryActivity", "Código de barras repetido desde onNotify(bytes): $barcodeData (${existingItem.readCount + 1} veces)")
                     } else {
                         uniqueInventoryItems[barcodeData] = newItem
+                        android.util.Log.d("InventoryActivity", "Nuevo código de barras desde onNotify(bytes): $barcodeData")
                     }
                     updateInventoryList()
                 }
@@ -411,18 +433,20 @@ class InventoryActivity : AppCompatActivity(), IOnNotifyCallback {
             return
         }
         
-        // Deduplicación temporal: evitar insertar el mismo código varias veces en poco tiempo
+        // Para códigos de barras: registrar primera lectura y contar repeticiones
         val currentTime = System.currentTimeMillis()
+        
+        // Deduplicación temporal: evitar spam de lecturas muy rápidas del mismo código
         val lastReadTime = recentBarcodeReads[barcodeData]
         if (lastReadTime != null && (currentTime - lastReadTime) < BARCODE_DEDUP_TIME_MS) {
             android.util.Log.d("InventoryActivity", "Código de barras duplicado reciente (${currentTime - lastReadTime}ms), ignorando: $barcodeData")
             return
         }
         
-        // Registrar esta lectura
+        // Registrar esta lectura para deduplicación temporal
         recentBarcodeReads[barcodeData] = currentTime
         
-        // Limpiar entradas antiguas del mapa de deduplicación (más de 5 segundos)
+        // Limpiar entradas antiguas del mapa de deduplicación temporal (más de 5 segundos)
         val fiveSecondsAgo = currentTime - 5000L
         recentBarcodeReads.entries.removeAll { it.value < fiveSecondsAgo }
         
@@ -441,7 +465,7 @@ class InventoryActivity : AppCompatActivity(), IOnNotifyCallback {
             // Agregar a todas las lecturas
             allInventoryItems.add(newItem)
             
-            // Actualizar o agregar item único
+            // Actualizar o agregar item único (incrementar contador si ya existe)
             val existingItem = uniqueInventoryItems[barcodeData]
             if (existingItem != null) {
                 // Incrementar contador de repeticiones
@@ -449,9 +473,11 @@ class InventoryActivity : AppCompatActivity(), IOnNotifyCallback {
                     readCount = existingItem.readCount + 1,
                     timestamp = currentTime
                 )
+                android.util.Log.d("InventoryActivity", "Código de barras repetido: $barcodeData (${existingItem.readCount + 1} veces)")
             } else {
-                // Nuevo item único
+                // Nuevo item único (primera lectura)
                 uniqueInventoryItems[barcodeData] = newItem
+                android.util.Log.d("InventoryActivity", "Nuevo código de barras: $barcodeData")
             }
             
             updateInventoryList()
@@ -459,41 +485,21 @@ class InventoryActivity : AppCompatActivity(), IOnNotifyCallback {
     }
     
     /**
-     * Limpia los datos del código de barras, eliminando caracteres inválidos
+     * Convierte los bytes del código de barras a String sin limpieza
+     * Se registra exactamente como viene del escáner
      */
     private fun cleanBarcodeData(bytes: ByteArray): String {
-        // Primero intentar convertir a String
-        val rawString = try {
-            String(bytes, Charsets.UTF_8)
+        // Convertir bytes a String sin modificar
+        return try {
+            String(bytes, Charsets.UTF_8).trim()
         } catch (e: Exception) {
             try {
-                String(bytes, Charsets.US_ASCII)
+                String(bytes, Charsets.US_ASCII).trim()
             } catch (e2: Exception) {
                 // Si falla, usar formato HEX
-                return FormatUtil.bytesToHexStr(bytes).replace(" ", "")
+                FormatUtil.bytesToHexStr(bytes).replace(" ", "")
             }
         }
-        
-        // Filtrar caracteres inválidos:
-        // - Caracteres de reemplazo Unicode (, U+FFFD)
-        // - Caracteres de control (excepto \n, \r, \t)
-        // - Caracteres no imprimibles
-        // - Rombos y símbolos de interrogación de reemplazo
-        val cleaned = rawString
-            .filter { char ->
-                // Permitir caracteres imprimibles y algunos caracteres de control comunes
-                when {
-                    char.isISOControl() && char !in listOf('\n', '\r', '\t') -> false
-                    char == '\uFFFD' -> false // Carácter de reemplazo Unicode
-                    char.code in 0x80..0x9F -> false // Caracteres de control C1
-                    char.isSurrogate() -> false // Caracteres sustituto
-                    !Character.isDefined(char.code) -> false // Caracteres no definidos
-                    else -> true
-                }
-            }
-            .trim()
-        
-        return cleaned
     }
     
     /**
