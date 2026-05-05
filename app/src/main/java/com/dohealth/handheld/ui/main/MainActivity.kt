@@ -12,6 +12,8 @@ import com.dohealth.handheld.R
 import com.dohealth.handheld.databinding.ActivityMainBinding
 import com.dohealth.handheld.ui.config.RfidConfigActivity
 import com.dohealth.handheld.ui.inventory.InventoryActivity
+import com.dohealth.handheld.ui.inventorysessions.InventorySessionsActivity
+import com.dohealth.handheld.ui.relacion.RelacionSessionsActivity
 import com.dohealth.handheld.utils.Constants
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -68,17 +70,25 @@ class MainActivity : AppCompatActivity() {
     private fun setupClickListeners() {
         // Botón RFID
         binding.rfidCard.setOnClickListener {
-            startInventoryActivity(InventoryActivity.MODE_RFID)
+            startInventorySessionsActivity(InventoryActivity.MODE_RFID)
         }
         
         // Botón Código de Barras
         binding.barcodeCard.setOnClickListener {
-            startInventoryActivity(InventoryActivity.MODE_BARCODE)
+            startInventorySessionsActivity(InventoryActivity.MODE_BARCODE)
         }
         
         // Botón Configuración
         binding.configButton.setOnClickListener {
             startActivity(Intent(this, RfidConfigActivity::class.java))
+        }
+
+        // Módulo Relación por Códigos
+        binding.relacionCodigosCard.setOnClickListener {
+            startActivity(Intent(this, RelacionSessionsActivity::class.java).apply {
+                putExtra("device_name", deviceName)
+                putExtra("device_address", deviceAddress)
+            })
         }
     }
     
@@ -89,6 +99,14 @@ class MainActivity : AppCompatActivity() {
             putExtra("device_address", deviceAddress)
         }
         startActivity(intent)
+    }
+
+    private fun startInventorySessionsActivity(mode: Int) {
+        startActivity(Intent(this, InventorySessionsActivity::class.java).apply {
+            putExtra(InventorySessionsActivity.EXTRA_MODE_INT, mode)
+            putExtra("device_name", deviceName)
+            putExtra("device_address", deviceAddress)
+        })
     }
 }
 

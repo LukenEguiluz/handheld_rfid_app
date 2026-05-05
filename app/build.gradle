@@ -62,10 +62,8 @@ dependencies {
     implementation 'org.apache.poi:poi:5.2.4'
     implementation 'org.apache.poi:poi-ooxml:5.2.4'
     
-    // SDK RFID
-    // IMPORTANTE: El archivo debe estar en app/libs/cf-sdk-v1.0.0.aar
-    // Si no está, cópialo desde ../aar/cf-sdk-v1.0.0.aar
-    implementation fileTree(dir: 'libs', include: ['*.aar'])
+    // SDK RFID v1.0.3 (compiled with Java 21 — requires AGP 8.7+)
+    implementation files('libs/cf-sdk-v1.0.3.aar')
     
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

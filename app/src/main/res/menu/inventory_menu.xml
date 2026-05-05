@@ -6,6 +6,11 @@
         android:id="@+id/export_data"
         android:title="Exportar"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/history"
+        android:title="@string/history_title_menu"
+        app:showAsAction="never" />
     
     <item
         android:id="@+id/send_server"

@@ -23,7 +23,11 @@ import com.cf.zsdk.cmd.CmdType
 import com.cf.zsdk.uitl.FormatUtil
 import com.dohealth.handheld.R
 import com.dohealth.handheld.databinding.ActivityInventoryBinding
+import com.dohealth.handheld.data.history.ScanHistoryStore
+import com.dohealth.handheld.data.inventory.InventorySession
+import com.dohealth.handheld.data.inventory.InventorySessionStore
 import com.dohealth.handheld.data.model.InventoryItem
+import com.dohealth.handheld.ui.history.ScanHistoryActivity
 import com.dohealth.handheld.utils.Constants
 import com.dohealth.handheld.utils.TextExporter
 import com.dohealth.handheld.utils.ApiService
@@ -35,6 +39,7 @@ class InventoryActivity : AppCompatActivity(), IOnNotifyCallback {
     companion object {
         const val MODE_RFID = 0x00
         const val MODE_BARCODE = 0x01
+        const val EXTRA_SESSION_ID = "inventory_session_id"
     }
     
     private lateinit var binding: ActivityInventoryBinding
@@ -48,6 +53,9 @@ class InventoryActivity : AppCompatActivity(), IOnNotifyCallback {
     private val serviceUuid = UUID.fromString(Constants.SERVICE_UUID)
     private val writeUuid = UUID.fromString(Constants.WRITE_UUID)
     private var pendingExportContent: String? = null
+    private lateinit var historyStore: ScanHistoryStore
+    private lateinit var sessionStore: InventorySessionStore
+    private var session: InventorySession? = null
     // Deduplicación temporal: código -> timestamp de última lectura
     private val recentBarcodeReads = mutableMapOf<String, Long>()
     private val BARCODE_DEDUP_TIME_MS = 500L // No insertar el mismo código si se leyó hace menos de 500ms (evitar spam)
@@ -70,13 +78,16 @@ class InventoryActivity : AppCompatActivity(), IOnNotifyCallback {
         mode = intent.getIntExtra("mode", MODE_RFID)
         
         bleCore = CfSdk.get(SdkC.BLE)
+        historyStore = ScanHistoryStore(this)
+        sessionStore = InventorySessionStore(this)
+        val sessionId = intent.getStringExtra(EXTRA_SESSION_ID)
+        session = sessionId?.let { sessionStore.getSession(it) }
         setupRecyclerView()
         setupClickListeners()
         setupUI()
         
-        // Mostrar mensaje de lista vacía inicialmente
-        binding.emptyListText.visibility = android.view.View.VISIBLE
-        binding.itemsRecyclerView.visibility = android.view.View.GONE
+        // Si venimos con sesión, restaurar lecturas
+        session?.let { restoreFromSession(it) }
         
         // Inicializar contadores con el texto correcto según el modo y empezar en 0
         initializeCounts()
@@ -89,6 +100,32 @@ class InventoryActivity : AppCompatActivity(), IOnNotifyCallback {
         
         // Verificar si debe usar modo trigger hold basado en la configuración
         checkTriggerHoldMode()
+    }
+
+    private fun restoreFromSession(s: InventorySession) {
+        allInventoryItems.clear()
+        uniqueInventoryItems.clear()
+        recentBarcodeReads.clear()
+
+        allInventoryItems.addAll(s.items)
+        for (it in s.items) {
+            val existing = uniqueInventoryItems[it.data]
+            if (existing != null) {
+                uniqueInventoryItems[it.data] = existing.copy(
+                    readCount = existing.readCount + it.readCount,
+                    timestamp = maxOf(existing.timestamp, it.timestamp)
+                )
+            } else {
+                uniqueInventoryItems[it.data] = it
+            }
+        }
+        updateInventoryList()
+    }
+
+    private fun persistSessionIfAny() {
+        val s = session ?: return
+        session = s.copy(items = allInventoryItems.toList())
+        session?.let { sessionStore.saveSession(it) }
     }
     
     private fun checkTriggerHoldMode() {
@@ -378,6 +415,8 @@ class InventoryActivity : AppCompatActivity(), IOnNotifyCallback {
                 
                 runOnUiThread {
                     allInventoryItems.add(newItem)
+                    historyStore.add(ScanHistoryActivity.MODE_BARCODE, barcodeData)
+                    persistSessionIfAny()
                     // Actualizar o agregar item único (incrementar contador si ya existe)
                     val existingItem = uniqueInventoryItems[barcodeData]
                     if (existingItem != null) {
@@ -464,6 +503,8 @@ class InventoryActivity : AppCompatActivity(), IOnNotifyCallback {
         runOnUiThread {
             // Agregar a todas las lecturas
             allInventoryItems.add(newItem)
+            historyStore.add(ScanHistoryActivity.MODE_BARCODE, barcodeData)
+            persistSessionIfAny()
             
             // Actualizar o agregar item único (incrementar contador si ya existe)
             val existingItem = uniqueInventoryItems[barcodeData]
@@ -489,17 +530,7 @@ class InventoryActivity : AppCompatActivity(), IOnNotifyCallback {
      * Se registra exactamente como viene del escáner
      */
     private fun cleanBarcodeData(bytes: ByteArray): String {
-        // Convertir bytes a String sin modificar
-        return try {
-            String(bytes, Charsets.UTF_8).trim()
-        } catch (e: Exception) {
-            try {
-                String(bytes, Charsets.US_ASCII).trim()
-            } catch (e2: Exception) {
-                // Si falla, usar formato HEX
-                FormatUtil.bytesToHexStr(bytes).replace(" ", "")
-            }
-        }
+        return com.dohealth.handheld.utils.decodeBarcodeWithHexFallback(bytes)
     }
     
     /**
@@ -575,6 +606,8 @@ class InventoryActivity : AppCompatActivity(), IOnNotifyCallback {
             runOnUiThread {
                 // Agregar a todas las lecturas
                 allInventoryItems.add(newItem)
+                historyStore.add(ScanHistoryActivity.MODE_RFID, epcHex)
+                persistSessionIfAny()
                 
                 // Actualizar o agregar item único
                 val existingItem = uniqueInventoryItems[epcHex]
@@ -610,6 +643,15 @@ class InventoryActivity : AppCompatActivity(), IOnNotifyCallback {
             }
             R.id.export_data -> {
                 showExportOptions()
+                true
+            }
+            R.id.history -> {
+                startActivity(Intent(this, ScanHistoryActivity::class.java).apply {
+                    putExtra(
+                        ScanHistoryActivity.EXTRA_MODE,
+                        if (mode == MODE_RFID) ScanHistoryActivity.MODE_RFID else ScanHistoryActivity.MODE_BARCODE
+                    )
+                })
                 true
             }
             R.id.send_server -> {
@@ -779,6 +821,7 @@ class InventoryActivity : AppCompatActivity(), IOnNotifyCallback {
     
     override fun onPause() {
         super.onPause()
+        persistSessionIfAny()
         // Poner dispositivo en standby al salir
         setDeviceToStandby()
     }

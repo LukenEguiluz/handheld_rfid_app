@@ -25,6 +25,47 @@
     <string name="mode_barcode">Código de Barras</string>
     <string name="mode_rfid_description">Lectura de tags RFID UHF</string>
     <string name="mode_barcode_description">Escaneo de códigos de barras y QR</string>
+
+    <!-- Relación por Códigos -->
+    <string name="module_relacion_codigos">Relación por Códigos</string>
+    <string name="module_relacion_codigos_description">Relaciona Producto → RFID y guarda historial</string>
+    <string name="relacion_sessions_title">Historial de Lecturas</string>
+    <string name="relacion_new_session">Nueva lectura</string>
+    <string name="relacion_resume">Reanudar</string>
+    <string name="relacion_delete">Eliminar</string>
+    <string name="relacion_no_sessions">No hay lecturas guardadas.\nCrea una nueva para comenzar.</string>
+    <string name="relacion_session_name_default">Lectura %1$s</string>
+    <string name="relacion_step_product">Paso 1: lee el PRODUCTO (código de barras)</string>
+    <string name="relacion_step_rfid">Paso 2: lee el RFID (potencia mínima, espera entre lecturas)</string>
+    <string name="relacion_step_second_barcode">Paso 2: lee la etiqueta RFID impresa como código de barras</string>
+    <string name="relacion_second_read_mode">Segundo valor</string>
+    <string name="relacion_second_read_rfid">RFID</string>
+    <string name="relacion_second_read_barcode">Código de barras</string>
+    <string name="relacion_item_second_rfid">RFID:</string>
+    <string name="relacion_item_second_barcode">Código 2:</string>
+    <string name="relacion_current_product">Producto actual:</string>
+    <string name="relacion_keep_product">Mantener producto para múltiples RFID</string>
+    <string name="relacion_clear_product">Cambiar producto</string>
+    <string name="relacion_start">Iniciar lectura</string>
+    <string name="relacion_stop">Detener lectura</string>
+    <string name="relacion_relations_count">Relaciones: %1$d</string>
+    <string name="relacion_last_updated">Actualizado: %1$s</string>
+    <string name="relacion_confirm_delete_title">Eliminar lectura</string>
+    <string name="relacion_confirm_delete_message">Esto borrará el historial de esta lectura.</string>
+    <string name="relacion_invalid_barcode">Código de producto inválido</string>
+    <string name="relacion_invalid_rfid">RFID inválido</string>
+    <string name="relacion_rfid_duplicate">Ese RFID ya está registrado</string>
+    <string name="relacion_second_label_duplicate">Esa etiqueta (segundo código) ya está registrada</string>
+    <string name="relacion_second_hex_invalid">El segundo código solo puede contener dígitos hex (0-9, A-F)</string>
+    <string name="relacion_export_txt">Exportar TXT</string>
+    <string name="relacion_export_txt_title">Guardar TXT</string>
+    <string name="relacion_export_success">TXT guardado</string>
+    <string name="relacion_export_error">No se pudo exportar</string>
+    <string name="relacion_edit">Editar</string>
+    <string name="relacion_edit_second_title">Editar segundo valor</string>
+    <string name="relacion_edit_second_hint">Solo hexadecimal (0-9, A-F)</string>
+    <string name="relacion_row_menu_title">Relación</string>
+    <string name="relacion_delete_one_confirm">¿Eliminar esta relación?</string>
     
     <!-- Inventario -->
     <string name="inventory_title">Inventario</string>
@@ -75,6 +116,21 @@
     <string name="send_loading">Enviando datos...</string>
     <string name="server_url">URL del Servidor</string>
     <string name="server_url_hint">https://api.ejemplo.com/inventory</string>
+
+    <!-- Historial -->
+    <string name="history_title_menu">Historial</string>
+    <string name="history_title">Historial %1$s</string>
+    <string name="history_count">Registros: %1$d</string>
+    <string name="history_empty">No hay lecturas guardadas.</string>
+    <string name="history_clear_title">Limpiar historial</string>
+    <string name="history_clear_message">Esto eliminará todas las lecturas guardadas.</string>
+    <string name="history_export_success">Historial exportado</string>
+    <string name="history_export_error">No se pudo exportar el historial</string>
+
+    <!-- Sesiones Inventario -->
+    <string name="inventory_sessions_title">Sesiones %1$s</string>
+    <string name="inventory_new_session">Nueva sesión</string>
+    <string name="inventory_no_sessions">No hay sesiones guardadas.\nCrea una nueva para comenzar.</string>
     
     <!-- General -->
     <string name="ok">Aceptar</string>

@@ -62,6 +62,27 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize" />
+
+        <activity
+            android:name=".ui.history.ScanHistoryActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.inventorysessions.InventorySessionsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.relacion.RelacionSessionsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.relacion.RelacionPorCodigosActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize" />
     </application>
 
 </manifest>
