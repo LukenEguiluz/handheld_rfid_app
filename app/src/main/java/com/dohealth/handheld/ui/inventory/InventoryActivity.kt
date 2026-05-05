@@ -85,12 +85,12 @@ class InventoryActivity : AppCompatActivity(), IOnNotifyCallback {
         setupRecyclerView()
         setupClickListeners()
         setupUI()
-        
-        // Si venimos con sesión, restaurar lecturas
-        session?.let { restoreFromSession(it) }
-        
+
         // Inicializar contadores con el texto correcto según el modo y empezar en 0
         initializeCounts()
+
+        // Si venimos con sesión, restaurar lecturas (esto actualizará lista + contadores)
+        session?.let { restoreFromSession(it) }
         
         // Inicializar estado del botón
         updateStartStopButton()
