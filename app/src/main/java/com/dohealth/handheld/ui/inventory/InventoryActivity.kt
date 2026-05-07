@@ -112,11 +112,12 @@ class InventoryActivity : AppCompatActivity(), IOnNotifyCallback {
             val existing = uniqueInventoryItems[it.data]
             if (existing != null) {
                 uniqueInventoryItems[it.data] = existing.copy(
-                    readCount = existing.readCount + it.readCount,
+                    // No acumular contadores históricos (evita saturación)
+                    readCount = 1,
                     timestamp = maxOf(existing.timestamp, it.timestamp)
                 )
             } else {
-                uniqueInventoryItems[it.data] = it
+                uniqueInventoryItems[it.data] = it.copy(readCount = 1)
             }
         }
         updateInventoryList()
@@ -281,7 +282,8 @@ class InventoryActivity : AppCompatActivity(), IOnNotifyCallback {
     
     private fun updateCounts() {
         val uniqueCount = uniqueInventoryItems.size
-        val totalCount = allInventoryItems.size
+        // En RFID no contamos duplicados para evitar saturación.
+        val totalCount = if (mode == MODE_RFID) uniqueCount else allInventoryItems.size
         
         // En modo código de barras mostrar "Productos", en modo RFID mostrar "Tags"
         if (mode == MODE_BARCODE) {
@@ -593,6 +595,9 @@ class InventoryActivity : AppCompatActivity(), IOnNotifyCallback {
             val epcHex = FormatUtil.bytesToHexStr(tagInfo.mEPCNum).replace(" ", "")
             val rssi = tagInfo.mRSSI
             val antenna = tagInfo.mAntenna
+
+            // En RFID: si ya existe, ignorar completamente para no saturar (no guardar, no contar, no refrescar UI).
+            if (uniqueInventoryItems.containsKey(epcHex)) return
             
             val newItem = InventoryItem(
                 data = epcHex,
@@ -604,23 +609,12 @@ class InventoryActivity : AppCompatActivity(), IOnNotifyCallback {
             )
             
             runOnUiThread {
-                // Agregar a todas las lecturas
+                // Guardar solo tags únicos
                 allInventoryItems.add(newItem)
                 historyStore.add(ScanHistoryActivity.MODE_RFID, epcHex)
                 persistSessionIfAny()
                 
-                // Actualizar o agregar item único
-                val existingItem = uniqueInventoryItems[epcHex]
-                if (existingItem != null) {
-                    // Incrementar contador de repeticiones
-                    uniqueInventoryItems[epcHex] = existingItem.copy(
-                        readCount = existingItem.readCount + 1,
-                        timestamp = System.currentTimeMillis() // Actualizar timestamp a la última lectura
-                    )
-                } else {
-                    // Nuevo item único
-                    uniqueInventoryItems[epcHex] = newItem
-                }
+                uniqueInventoryItems[epcHex] = newItem
                 
                 updateInventoryList()
             }
