@@ -77,6 +77,17 @@ class MainActivity : AppCompatActivity() {
         binding.barcodeCard.setOnClickListener {
             startInventorySessionsActivity(InventoryActivity.MODE_BARCODE)
         }
+
+        // Módulo ESFERICA (RFID separado)
+        binding.esfericaCard.setOnClickListener {
+            startActivity(Intent(this, InventorySessionsActivity::class.java).apply {
+                putExtra(InventorySessionsActivity.EXTRA_MODE_INT, InventoryActivity.MODE_RFID)
+                putExtra(InventorySessionsActivity.EXTRA_SESSION_MODE_KEY, "ESFERICA")
+                putExtra(InventorySessionsActivity.EXTRA_TITLE, getString(R.string.mode_esferica))
+                putExtra("device_name", deviceName)
+                putExtra("device_address", deviceAddress)
+            })
+        }
         
         // Botón Configuración
         binding.configButton.setOnClickListener {

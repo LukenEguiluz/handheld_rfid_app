@@ -23,6 +23,8 @@
     <string name="select_mode">Seleccionar Modo</string>
     <string name="mode_rfid">RFID</string>
     <string name="mode_barcode">Código de Barras</string>
+    <string name="mode_esferica">ESFERICA</string>
+    <string name="mode_esferica_description">Lectura RFID UHF (sesiones separadas)</string>
     <string name="mode_rfid_description">Lectura de tags RFID UHF</string>
     <string name="mode_barcode_description">Escaneo de códigos de barras y QR</string>
 

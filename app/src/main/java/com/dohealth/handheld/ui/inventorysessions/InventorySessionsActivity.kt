@@ -22,6 +22,8 @@ class InventorySessionsActivity : AppCompatActivity() {
     private var deviceName: String = ""
     private var deviceAddress: String = ""
     private var mode: Int = InventoryActivity.MODE_RFID
+    private var sessionModeKey: String? = null
+    private var titleOverride: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,13 +33,15 @@ class InventorySessionsActivity : AppCompatActivity() {
         deviceName = intent.getStringExtra("device_name") ?: "Dispositivo"
         deviceAddress = intent.getStringExtra("device_address") ?: ""
         mode = intent.getIntExtra(EXTRA_MODE_INT, InventoryActivity.MODE_RFID)
+        sessionModeKey = intent.getStringExtra(EXTRA_SESSION_MODE_KEY)
+        titleOverride = intent.getStringExtra(EXTRA_TITLE)
 
         store = InventorySessionStore(this)
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.toolbar.setNavigationOnClickListener { finish() }
-        supportActionBar?.title = getString(
+        supportActionBar?.title = titleOverride ?: getString(
             R.string.inventory_sessions_title,
             if (mode == InventoryActivity.MODE_RFID) getString(R.string.mode_rfid) else getString(R.string.mode_barcode)
         )
@@ -97,10 +101,12 @@ class InventorySessionsActivity : AppCompatActivity() {
             .show()
     }
 
-    private fun modeString(): String = if (mode == InventoryActivity.MODE_RFID) "RFID" else "BARCODE"
+    private fun modeString(): String = sessionModeKey ?: if (mode == InventoryActivity.MODE_RFID) "RFID" else "BARCODE"
 
     companion object {
         const val EXTRA_MODE_INT = "inventory_sessions_mode"
+        const val EXTRA_SESSION_MODE_KEY = "inventory_session_mode_key"
+        const val EXTRA_TITLE = "inventory_sessions_title"
     }
 }
 
