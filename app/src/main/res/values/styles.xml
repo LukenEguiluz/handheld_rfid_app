@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.DoHealthHandheld.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <style name="Theme.DoHealthHandheld.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:textColorSecondary">@color/white</item>
-        <item name="android:textColor">@color/white</item>
+    <style name="Theme.DoHealthHandheld.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="popupMenuStyle">@style/Widget.DoHealth.PopupMenu</item>
     </style>
-</resources>
 
+    <!-- Overflow del Toolbar: superficie oscura y texto claro sobre fondos blancos -->
+    <style name="Theme.DoHealthHandheld.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Dark">
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/menu_popup_text_secondary</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="colorSurface">@color/menu_popup_surface</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="popupMenuStyle">@style/Widget.DoHealth.PopupMenu</item>
+    </style>
+
+    <style name="Widget.DoHealth.PopupMenu" parent="Widget.MaterialComponents.PopupMenu">
+        <item name="android:popupBackground">@drawable/popup_menu_bg</item>
+    </style>
+
+    <!-- Outline negro fuerte para cliente/almacén (Material usa colorPrimary para el borde). -->
+    <style name="ThemeOverlay.DoHealth.EsfericaClientWarehouseField" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorOnSurface">@color/black</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+    </style>
+
+</resources>
 

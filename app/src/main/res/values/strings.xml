@@ -3,7 +3,7 @@
     <string name="app_name">doHealth Handheld</string>
     
     <!-- Splash -->
-    <string name="splash_loading">Cargando...</string>
+    <string name="splash_loading">Preparando aplicación…</string>
     
     <!-- Conexión -->
     <string name="connection_title">Conectar Dispositivo</string>
@@ -24,7 +24,70 @@
     <string name="mode_rfid">RFID</string>
     <string name="mode_barcode">Código de Barras</string>
     <string name="mode_esferica">ESFERICA</string>
-    <string name="mode_esferica_description">Lectura RFID UHF (sesiones separadas)</string>
+    <string name="mode_esferica_description">Historial de conteos físicos RFID (reanuda lecturas por cliente/almacén)</string>
+
+    <!-- ESFERICA — conteo físico -->
+    <string name="esferica_physical_count_title">Conteo físico RFID</string>
+    <string name="esferica_pick_client">Cliente</string>
+    <string name="esferica_pick_warehouse">Almacén</string>
+    <string name="esferica_api_base_hint">URL API ESFERICA — base (https://esferica.leyluz.com/)</string>
+    <string name="esferica_start_physical_count">Iniciar conteo</string>
+    <string name="esferica_retry_load">Reintentar carga</string>
+    <string name="esferica_must_select_client_warehouse">Seleccione cliente y almacén</string>
+    <string name="esferica_invalid_base_url">Indique una URL base válida</string>
+    <string name="esferica_start_reading">Iniciar lectura RFID</string>
+    <string name="esferica_pause_reading">Pausar lectura</string>
+    <string name="esferica_resume_reading">Reanudar lectura</string>
+    <string name="esferica_recalculate">Recalcular</string>
+    <string name="esferica_clear_count">Limpiar conteo</string>
+    <string name="esferica_finish_count">Finalizar conteo</string>
+    <string name="esferica_expected_label">Piezas esperadas: %1$d</string>
+    <string name="esferica_read_unique_label">Piezas únicas leídas: %1$d</string>
+    <string name="esferica_matched_unique_label">Piezas válidas contadas (en inventario): %1$d</string>
+    <string name="esferica_off_catalog_unique_label">Lecturas únicas fuera del inventario cargado: %1$d</string>
+    <string name="esferica_product_breakdown_title">Por código de producto (faltan por leer)</string>
+    <string name="esferica_product_search_hint">Buscar código o descripción…</string>
+    <string name="esferica_client_search_hint">Cliente — escribir para filtrar y elegir</string>
+    <string name="esferica_warehouse_search_hint">Almacén — escribir para filtrar y elegir</string>
+    <string name="esferica_loading_catalog">Cargando clientes y almacenes…</string>
+    <string name="esferica_loading_inventory">Descargando inventario esperado…</string>
+    <string name="esferica_loading_count_session">Preparando conteo y desglose por producto…</string>
+    <string name="esferica_export_expected_vs_counted_csv">Exportar CSV — esperados vs válidos contados</string>
+    <string name="esferica_reading_running">Lectura activa…</string>
+    <string name="esferica_reading_paused">Lectura en pausa</string>
+    <string name="esferica_reading_stopped">Lectura detenida — pulse iniciar</string>
+    <string name="esferica_recalc_summary">Esperado %1$d | Leídas %2$d | Match %3$d | Falta %4$d | Sobrante %5$d</string>
+    <string name="esferica_clear_confirm">¿Borrar todas las etiquetas leídas en esta sesión?</string>
+    <string name="esferica_unknown_rfids">Sobrantes no identificados</string>
+    <string name="esferica_surplus_identified">Sobrantes identificados</string>
+    <string name="esferica_expand_detail">Expandir detalle</string>
+    <string name="esferica_missing_rfids">RFIDs faltantes</string>
+    <string name="esferica_read_rfids">RFIDs leídos (match)</string>
+    <string name="esferica_extra_rfids_section">RFIDs sobrantes (producto)</string>
+    <string name="esferica_export_csv">Exportar CSV</string>
+    <string name="esferica_export_xlsx">Exportar Excel</string>
+    <string name="esferica_back_home">Al menú</string>
+    <string name="esferica_results_title">Resultado del conteo</string>
+    <string name="esferica_row_expected_fmt">Esp. %1$d</string>
+    <string name="esferica_row_read_fmt">Leíd. %1$d</string>
+    <string name="esferica_row_miss_fmt">Fal. %1$d</string>
+    <string name="esferica_row_extra_fmt">Sob. %1$d</string>
+    <string name="esferica_sum_expected_fmt">Esperado\n%1$d</string>
+    <string name="esferica_sum_read_fmt">Leído\n%1$d</string>
+    <string name="esferica_sum_match_fmt">Match\n%1$d</string>
+    <string name="esferica_sum_miss_fmt">Falta\n%1$d</string>
+    <string name="esferica_sum_extra_fmt">Sobr.\n%1$d</string>
+    <string name="esferica_inventory_empty">No hay líneas de inventario DISPONIBLE para esta selección</string>
+    <string name="esferica_catalog_load_error">No se pudo conectar con la API ESFERICA. Revise la URL y la red.</string>
+    <string name="esferica_sessions_title">Conteos físicos ESFERICA</string>
+    <string name="esferica_sessions_empty">No hay lecturas guardadas.\nPulse «Nuevo conteo» para elegir cliente y almacén, o pulse una fila para reanudar.</string>
+    <string name="esferica_new_count_session">Nuevo conteo</string>
+    <string name="esferica_session_stats_line">Esperadas: %1$d · En inventario (match): %2$d · Fuera de inventario: %3$d</string>
+    <string name="esferica_session_updated_fmt">Último cambio: %1$s</string>
+    <string name="esferica_session_status_open">Conteo abierto · lectura en curso o pausada</string>
+    <string name="esferica_session_status_has_result">Con resultado guardado · puede exportar</string>
+    <string name="esferica_session_delete_confirm_title">Eliminar conteo</string>
+    <string name="esferica_session_delete_confirm_message">Se borrará esta sesión guardada en el equipo.</string>
     <string name="mode_rfid_description">Lectura de tags RFID UHF</string>
     <string name="mode_barcode_description">Escaneo de códigos de barras y QR</string>
 

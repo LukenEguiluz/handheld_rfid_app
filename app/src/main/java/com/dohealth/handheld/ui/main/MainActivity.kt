@@ -12,6 +12,7 @@ import com.dohealth.handheld.R
 import com.dohealth.handheld.databinding.ActivityMainBinding
 import com.dohealth.handheld.ui.config.RfidConfigActivity
 import com.dohealth.handheld.ui.inventory.InventoryActivity
+import com.dohealth.handheld.ui.esferica.EsfericaSessionsActivity
 import com.dohealth.handheld.ui.inventorysessions.InventorySessionsActivity
 import com.dohealth.handheld.ui.relacion.RelacionSessionsActivity
 import com.dohealth.handheld.utils.Constants
@@ -78,12 +79,9 @@ class MainActivity : AppCompatActivity() {
             startInventorySessionsActivity(InventoryActivity.MODE_BARCODE)
         }
 
-        // Módulo ESFERICA (RFID separado)
+        // Módulo ESFERICA — historial de conteos y lectura física por cliente/almacén
         binding.esfericaCard.setOnClickListener {
-            startActivity(Intent(this, InventorySessionsActivity::class.java).apply {
-                putExtra(InventorySessionsActivity.EXTRA_MODE_INT, InventoryActivity.MODE_RFID)
-                putExtra(InventorySessionsActivity.EXTRA_SESSION_MODE_KEY, "ESFERICA")
-                putExtra(InventorySessionsActivity.EXTRA_TITLE, getString(R.string.mode_esferica))
+            startActivity(Intent(this, EsfericaSessionsActivity::class.java).apply {
                 putExtra("device_name", deviceName)
                 putExtra("device_address", deviceAddress)
             })

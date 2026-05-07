@@ -13,6 +13,8 @@ object Constants {
     // Preferencias
     const val PREFS_NAME = "dohealth_handheld_prefs"
     const val KEY_SERVER_URL = "server_url"
+    /** Base URL de la API ESFERICA (ej. https://esferica.leyluz.com/ — con barra final). */
+    const val KEY_ESFERICA_API_BASE = "esferica_api_base"
     const val KEY_POWER_LEVEL = "power_level"
     const val KEY_Q_VALUE = "q_value"
     const val KEY_SESSION = "session"
@@ -44,5 +46,6 @@ object Constants {
     
     // URL del servidor (mock - puedes cambiar esto)
     const val DEFAULT_SERVER_URL = "https://api.dohealth.com/inventory"
+    const val DEFAULT_ESFERICA_API_BASE = "https://esferica.leyluz.com/"
 }
 

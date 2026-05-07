@@ -3,31 +3,65 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary_red">
+    android:background="@color/background_light">
 
-    <TextView
-        android:id="@+id/appNameText"
+    <LinearLayout
+        android:id="@+id/splashContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textColor="@color/white"
-        android:textSize="32sp"
-        android:textStyle="bold"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="@dimen/padding_large"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_large"
-        android:indeterminateTint="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appNameText" />
+        <ImageView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:contentDescription="@string/app_name"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/appNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:text="@string/app_name"
+            android:textColor="@color/primary_red"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:text="@string/splash_loading"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_size_medium" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/splashLinearProgress"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:max="100"
+            android:progress="0"
+            app:indicatorColor="@color/primary_red"
+            app:trackColor="@color/card_stroke_esferica"
+            app:trackCornerRadius="8dp"
+            app:trackThickness="10dp" />
+
+        <TextView
+            android:id="@+id/splashPercentText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_size_small"
+            android:text="0%" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-

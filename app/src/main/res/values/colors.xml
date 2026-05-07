@@ -33,6 +33,15 @@
     <color name="button_primary_pressed">#B71C1C</color>
     <color name="button_secondary">#616161</color>
     <color name="button_secondary_pressed">#424242</color>
+
+    <!-- Menús / superficies oscuras sobre UI clara -->
+    <color name="menu_popup_surface">#2C2C2C</color>
+    <color name="menu_popup_text_secondary">#B3FFFFFF</color>
+    <color name="color_background_floating_dark">#2E2F33</color>
+    <color name="card_stroke_esferica">#E0E0E0</color>
+
+    <!-- Superficie de overlays de carga (no negro — mezcla con UI clara) -->
+    <color name="loading_scrim">#B3EEEEEE</color>
 </resources>
 
 

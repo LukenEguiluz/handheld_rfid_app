@@ -6,13 +6,34 @@
         <item name="colorAccent">@color/primary_red</item>
         <item name="android:statusBarColor">@color/primary_red_dark</item>
         <item name="android:windowBackground">@color/background_white</item>
+        <!-- Menús contextuales, spinners y superficies flotantes legibles -->
+        <item name="android:colorBackgroundFloating">@color/color_background_floating_dark</item>
+        <item name="popupMenuStyle">@style/Widget.DoHealth.PopupMenu</item>
+        <item name="android:popupMenuStyle">@style/Widget.DoHealth.PopupMenu</item>
     </style>
-    
-    <style name="Theme.DoHealthHandheld.Splash" parent="Theme.DoHealthHandheld">
-        <item name="android:windowBackground">@color/primary_red</item>
-        <item name="android:windowFullscreen">true</item>
+
+    <!-- Splash claro para evitar pantalla negra antes del contenido -->
+    <style name="Theme.DoHealthHandheld.Splash" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary_red</item>
+        <item name="colorPrimaryDark">@color/primary_red_dark</item>
+        <item name="colorAccent">@color/primary_red</item>
+        <item name="android:windowBackground">@color/background_light</item>
+        <item name="android:statusBarColor">@color/primary_red_dark</item>
+        <item name="android:navigationBarColor">@color/background_light</item>
+        <item name="android:windowFullscreen">false</item>
         <item name="android:windowNoTitle">true</item>
     </style>
-</resources>
 
+    <!-- ESFERICA: tema claro fijo para evitar destello negro al abrir (DayNight modo oscuro). -->
+    <style name="Theme.DoHealthHandheld.Esferica" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary_red</item>
+        <item name="colorPrimaryDark">@color/primary_red_dark</item>
+        <item name="colorAccent">@color/primary_red</item>
+        <item name="android:windowBackground">@color/background_light</item>
+        <item name="android:navigationBarColor">@color/background_light</item>
+        <item name="android:statusBarColor">@color/primary_red_dark</item>
+        <!-- Evita pantalla previa oscura antes del primer layout -->
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+</resources>
 

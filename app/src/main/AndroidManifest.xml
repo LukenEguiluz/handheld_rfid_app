@@ -74,6 +74,33 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".ui.esferica.EsfericaSessionsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/Theme.DoHealthHandheld.Esferica" />
+
+        <activity
+            android:name=".ui.esferica.EsfericaSelectionActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/Theme.DoHealthHandheld.Esferica" />
+
+        <activity
+            android:name=".ui.esferica.EsfericaCountActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/Theme.DoHealthHandheld.Esferica" />
+
+        <activity
+            android:name=".ui.esferica.EsfericaResultsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.DoHealthHandheld.Esferica" />
+
+        <activity
             android:name=".ui.relacion.RelacionSessionsActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
