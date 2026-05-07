@@ -87,6 +87,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.CoroutineExceptionHandler
 
 import kotlinx.coroutines.launch
 
@@ -167,6 +168,12 @@ class EsfericaCountActivity : AppCompatActivity(), IOnNotifyCallback {
     private var reconcileDebounceJob: Job? = null
 
     private var persistDebounceJob: Job? = null
+
+    private val errorHandler = CoroutineExceptionHandler { _, throwable ->
+
+        reportError(throwable)
+
+    }
 
 
 
@@ -458,7 +465,7 @@ class EsfericaCountActivity : AppCompatActivity(), IOnNotifyCallback {
 
         reconcileDebounceJob?.cancel()
 
-        reconcileDebounceJob = lifecycleScope.launch {
+        reconcileDebounceJob = lifecycleScope.launch(errorHandler) {
 
             kotlinx.coroutines.delay(240)
 
@@ -691,6 +698,26 @@ class EsfericaCountActivity : AppCompatActivity(), IOnNotifyCallback {
 
     }
 
+    private fun updateProductCompletionSummary() {
+
+        val total = reconciledProducts.count { (it.expectedQty ?: 0) > 0 }
+
+        val completed = reconciledProducts.count {
+
+            val exp = it.expectedQty ?: 0
+
+            val scn = it.scannedQty ?: 0
+
+            exp > 0 && scn >= exp
+
+        }
+
+        binding.productCompletionSummaryText.text =
+
+            getString(R.string.esferica_completed_codes_summary, completed, total)
+
+    }
+
 
 
     private fun configureProductSearchField() {
@@ -746,6 +773,8 @@ class EsfericaCountActivity : AppCompatActivity(), IOnNotifyCallback {
 
 
     private fun applyProductFilter() {
+
+        updateProductCompletionSummary()
 
         val raw = binding.productSearchInput.text?.toString()?.trim().orEmpty()
 
@@ -831,11 +860,39 @@ class EsfericaCountActivity : AppCompatActivity(), IOnNotifyCallback {
 
             kotlinx.coroutines.delay(220)
 
-            store.updateScanned(sessionId, scannedUnique.toList())
+            kotlin.runCatching {
+
+                store.updateScanned(sessionId, scannedNow)
+
+            }.onFailure { reportError(it) }
 
         }
 
         refreshStats()
+
+    }
+
+    private fun reportError(t: Throwable) {
+
+        val msg = (t.message ?: t.javaClass.simpleName).take(180)
+
+        runOnUiThread {
+
+            Toast.makeText(
+
+                this@EsfericaCountActivity,
+
+                getString(R.string.esferica_read_error, msg),
+
+                Toast.LENGTH_LONG,
+
+            ).show()
+
+            binding.statusReadingText.text =
+
+                "${binding.statusReadingText.text}\n${getString(R.string.esferica_read_error_inline, msg)}"
+
+        }
 
     }
 
@@ -1033,13 +1090,17 @@ class EsfericaCountActivity : AppCompatActivity(), IOnNotifyCallback {
 
     override fun onNotify(cmdType: Int, cmdData: CmdData) {
 
-        when (cmdType) {
+        kotlin.runCatching {
 
-            CmdType.TYPE_INVENTORY -> handleRfid(cmdData)
+            when (cmdType) {
 
-            CmdType.TYPE_KEY_STATE -> handleTriggerKeyState(cmdData)
+                CmdType.TYPE_INVENTORY -> handleRfid(cmdData)
 
-        }
+                CmdType.TYPE_KEY_STATE -> handleTriggerKeyState(cmdData)
+
+            }
+
+        }.onFailure { reportError(it) }
 
     }
 
@@ -1077,11 +1138,14 @@ class EsfericaCountActivity : AppCompatActivity(), IOnNotifyCallback {
 
     private fun handleRfid(cmdData: CmdData) {
 
-        val tagInfo = cmdData.getData() as? TagInfoBean ?: return
+        val tagInfo = kotlin.runCatching { cmdData.getData() as? TagInfoBean }.getOrNull() ?: return
 
         if (tagInfo.mStatus != 0x00 || tagInfo.mEPCNum == null) return
 
-        val epcHex = FormatUtil.bytesToHexStr(tagInfo.mEPCNum).replace(" ", "")
+        val epcHex = kotlin.runCatching { FormatUtil.bytesToHexStr(tagInfo.mEPCNum) }
+            .getOrNull()
+            ?.replace(" ", "")
+            ?: return
 
         val norm = EsfericaRfidNormalizer.normalize(epcHex) ?: return
 
@@ -1089,7 +1153,7 @@ class EsfericaCountActivity : AppCompatActivity(), IOnNotifyCallback {
 
         runOnUiThread {
 
-            persistScans()
+            kotlin.runCatching { persistScans() }.onFailure { reportError(it) }
 
         }
 

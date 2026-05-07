@@ -51,6 +51,7 @@
     <string name="esferica_filter_not_read">No leídos</string>
     <string name="esferica_filter_incomplete">Incompletos</string>
     <string name="esferica_filter_complete">Completados</string>
+    <string name="esferica_completed_codes_summary">Completados: %1$d / %2$d</string>
     <string name="esferica_client_search_hint">Cliente — escribir para filtrar y elegir</string>
     <string name="esferica_warehouse_search_hint">Almacén — escribir para filtrar y elegir</string>
     <string name="esferica_loading_catalog">Cargando clientes y almacenes…</string>
@@ -60,6 +61,8 @@
     <string name="esferica_reading_running">Lectura activa…</string>
     <string name="esferica_reading_paused">Lectura en pausa</string>
     <string name="esferica_reading_stopped">Lectura detenida — pulse iniciar</string>
+    <string name="esferica_read_error">Error de lectura: %1$s</string>
+    <string name="esferica_read_error_inline">Error: %1$s</string>
     <string name="esferica_recalc_summary">Esperado %1$d | Leídas %2$d | Match %3$d | Falta %4$d | Sobrante %5$d</string>
     <string name="esferica_clear_confirm">¿Borrar todas las etiquetas leídas en esta sesión?</string>
     <string name="esferica_unknown_rfids">Sobrantes no identificados</string>

@@ -87,6 +87,15 @@
                     android:textColor="@color/text_primary"
                     android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/productCompletionSummaryText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_xsmall"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="@dimen/text_size_small"
+                    tools:text="Completados: 12 / 40" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/productSearchInputLayout"
                     android:layout_width="match_parent"
