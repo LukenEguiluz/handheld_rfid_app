@@ -28,7 +28,7 @@ class SplashActivity : AppCompatActivity() {
                 percentText,
             ).join()
             delay(1400)
-            DeterminateLoadingProgress.snapToDone(progress, percentText)
+            DeterminateLoadingProgress.flashFullProgress(progress, percentText)
             startActivity(Intent(this@SplashActivity, ConnectionActivity::class.java))
             finish()
         }

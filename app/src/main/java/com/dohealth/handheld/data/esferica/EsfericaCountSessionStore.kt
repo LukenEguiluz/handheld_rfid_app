@@ -9,6 +9,8 @@ import java.util.UUID
 private const val KEY_SESSIONS_MAP = "esferica_sessions_map_v4"
 private const val KEY_ACTIVE_SESSION_ID = "esferica_active_session_id_v4"
 private const val LEGACY_SINGLE_SESSION = "esferica_physical_count_session_v2"
+private const val KEY_SCANNED_PREFIX = "esferica_session_scanned_v1__"
+private const val KEY_UPDATED_AT_PREFIX = "esferica_session_updatedAt_v1__"
 
 data class EsfericaCountPersistedSession(
     val sessionId: String = UUID.randomUUID().toString(),
@@ -33,6 +35,7 @@ class EsfericaCountSessionStore(context: Context) {
     private val prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE)
     private val gson = Gson()
     private val mapTypeToken = object : TypeToken<Map<String, EsfericaCountPersistedSession>>() {}.type
+    private val stringListTypeToken = object : TypeToken<List<String>>() {}.type
 
     init {
         migrateLegacyIfNeeded()
@@ -92,10 +95,42 @@ class EsfericaCountSessionStore(context: Context) {
         prefs.edit().putString(KEY_SESSIONS_MAP, gson.toJson(map)).apply()
     }
 
-    fun listSessions(): List<EsfericaCountPersistedSession> =
-        loadMap().values.sortedByDescending { it.updatedAt }
+    private fun scannedKey(sessionId: String) = "$KEY_SCANNED_PREFIX$sessionId"
 
-    fun getSession(sessionId: String): EsfericaCountPersistedSession? = loadMap()[sessionId]
+    private fun updatedAtKey(sessionId: String) = "$KEY_UPDATED_AT_PREFIX$sessionId"
+
+    private fun loadScanned(sessionId: String): List<String>? {
+        val raw = prefs.getString(scannedKey(sessionId), null) ?: return null
+        return kotlin.runCatching {
+            gson.fromJson<List<String>>(raw, stringListTypeToken)
+        }.getOrNull()
+    }
+
+    private fun persistScanned(sessionId: String, scannedRfids: List<String>, nowMs: Long) {
+        prefs.edit()
+            .putString(scannedKey(sessionId), gson.toJson(scannedRfids))
+            .putLong(updatedAtKey(sessionId), nowMs)
+            .apply()
+    }
+
+    private fun loadUpdatedAt(sessionId: String): Long? =
+        if (prefs.contains(updatedAtKey(sessionId))) prefs.getLong(updatedAtKey(sessionId), 0L)
+        else null
+
+    private fun resolveSession(base: EsfericaCountPersistedSession): EsfericaCountPersistedSession {
+        val scanned = loadScanned(base.sessionId) ?: base.scannedRfidsOrdered
+        val updated = loadUpdatedAt(base.sessionId) ?: base.updatedAt
+        return base.copy(
+            scannedRfidsOrdered = scanned,
+            updatedAt = updated,
+        )
+    }
+
+    fun listSessions(): List<EsfericaCountPersistedSession> =
+        loadMap().values.map { resolveSession(it) }.sortedByDescending { it.updatedAt }
+
+    fun getSession(sessionId: String): EsfericaCountPersistedSession? =
+        loadMap()[sessionId]?.let { resolveSession(it) }
 
     fun getActiveSessionId(): String? = prefs.getString(KEY_ACTIVE_SESSION_ID, null)
 
@@ -111,9 +146,11 @@ class EsfericaCountSessionStore(context: Context) {
      * Crea o reemplaza la sesión por [EsfericaCountPersistedSession.sessionId] y la marca como activa.
      */
     fun upsert(session: EsfericaCountPersistedSession) {
+        val now = System.currentTimeMillis()
         val map = loadMap().toMutableMap()
-        map[session.sessionId] = session.copy(updatedAt = System.currentTimeMillis())
+        map[session.sessionId] = session.copy(updatedAt = now)
         persistMap(map)
+        persistScanned(session.sessionId, session.scannedRfidsOrdered, now)
         setActiveSessionId(session.sessionId)
     }
 
@@ -121,6 +158,10 @@ class EsfericaCountSessionStore(context: Context) {
         val map = loadMap().toMutableMap()
         map.remove(sessionId)
         persistMap(map)
+        prefs.edit()
+            .remove(scannedKey(sessionId))
+            .remove(updatedAtKey(sessionId))
+            .apply()
         if (getActiveSessionId() == sessionId) {
             prefs.edit().remove(KEY_ACTIVE_SESSION_ID).apply()
         }
@@ -140,8 +181,11 @@ class EsfericaCountSessionStore(context: Context) {
     }
 
     fun updateScanned(sessionId: String, scannedRfids: List<String>) {
-        val cur = getSession(sessionId) ?: return
-        upsert(cur.copy(scannedRfidsOrdered = scannedRfids))
+        val now = System.currentTimeMillis()
+        persistScanned(sessionId, scannedRfids, now)
+        if (getActiveSessionId() == sessionId) {
+            setActiveSessionId(sessionId)
+        }
     }
 
     fun updateLastReconcile(sessionId: String, result: ReconcileResponseDto) {

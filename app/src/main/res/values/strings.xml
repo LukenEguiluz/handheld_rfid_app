@@ -36,6 +36,7 @@
     <string name="esferica_must_select_client_warehouse">Seleccione cliente y almacén</string>
     <string name="esferica_invalid_base_url">Indique una URL base válida</string>
     <string name="esferica_start_reading">Iniciar lectura RFID</string>
+    <string name="esferica_stop_reading">Detener lectura RFID</string>
     <string name="esferica_pause_reading">Pausar lectura</string>
     <string name="esferica_resume_reading">Reanudar lectura</string>
     <string name="esferica_recalculate">Recalcular</string>
@@ -47,6 +48,9 @@
     <string name="esferica_off_catalog_unique_label">Lecturas únicas fuera del inventario cargado: %1$d</string>
     <string name="esferica_product_breakdown_title">Por código de producto (faltan por leer)</string>
     <string name="esferica_product_search_hint">Buscar código o descripción…</string>
+    <string name="esferica_filter_not_read">No leídos</string>
+    <string name="esferica_filter_incomplete">Incompletos</string>
+    <string name="esferica_filter_complete">Completados</string>
     <string name="esferica_client_search_hint">Cliente — escribir para filtrar y elegir</string>
     <string name="esferica_warehouse_search_hint">Almacén — escribir para filtrar y elegir</string>
     <string name="esferica_loading_catalog">Cargando clientes y almacenes…</string>

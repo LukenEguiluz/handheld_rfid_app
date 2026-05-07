@@ -10,6 +10,8 @@ import android.net.Uri
 
 import android.os.Bundle
 
+import android.content.res.ColorStateList
+
 import android.view.Menu
 
 import android.view.MenuItem
@@ -82,6 +84,10 @@ import kotlinx.coroutines.Dispatchers
 
 import kotlinx.coroutines.Job
 
+import kotlinx.coroutines.async
+
+import kotlinx.coroutines.coroutineScope
+
 import kotlinx.coroutines.launch
 
 import kotlinx.coroutines.withContext
@@ -108,6 +114,16 @@ class EsfericaCountActivity : AppCompatActivity(), IOnNotifyCallback {
 
     private data class LabeledProductRow(val dto: ProductCountResultDto, val label: String)
 
+    private enum class ProductStatusFilter {
+
+        NOT_READ,
+
+        INCOMPLETE,
+
+        COMPLETE,
+
+    }
+
 
 
     private lateinit var binding: ActivityEsfericaCountBinding
@@ -120,6 +136,8 @@ class EsfericaCountActivity : AppCompatActivity(), IOnNotifyCallback {
 
     private lateinit var session: EsfericaCountPersistedSession
 
+    private lateinit var expectedRfidSet: Set<String>
+
 
 
     private val serviceUuid = UUID.fromString(com.dohealth.handheld.utils.Constants.SERVICE_UUID)
@@ -129,8 +147,6 @@ class EsfericaCountActivity : AppCompatActivity(), IOnNotifyCallback {
 
 
     private var isReading = false
-
-    private var manuallyPaused = false
 
     private var isTriggerHoldMode = false
 
@@ -148,9 +164,15 @@ class EsfericaCountActivity : AppCompatActivity(), IOnNotifyCallback {
 
     private var reconcileGeneration = 0
 
+    private var reconcileDebounceJob: Job? = null
+
+    private var persistDebounceJob: Job? = null
+
 
 
     private var productSearchChoices: List<LabeledProductRow> = emptyList()
+
+    private var productStatusFilter: ProductStatusFilter = ProductStatusFilter.NOT_READ
 
 
 
@@ -216,6 +238,8 @@ class EsfericaCountActivity : AppCompatActivity(), IOnNotifyCallback {
 
         session = loaded
 
+        expectedRfidSet = EsfericaReconcileLocal.normalizedExpectedRfidSet(session.expectedItems)
+
 
 
         scannedUnique.clear()
@@ -274,33 +298,39 @@ class EsfericaCountActivity : AppCompatActivity(), IOnNotifyCallback {
 
         binding.productSearchInput.doOnTextChanged { _, _, _, _ -> applyProductFilter() }
 
+        binding.productStatusFilterGroup.check(R.id.filterNotReadButton)
+
+        binding.productStatusFilterGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
+
+            if (!isChecked) return@addOnButtonCheckedListener
+
+            productStatusFilter = when (checkedId) {
+
+                R.id.filterNotReadButton -> ProductStatusFilter.NOT_READ
+
+                R.id.filterIncompleteButton -> ProductStatusFilter.INCOMPLETE
+
+                R.id.filterCompleteButton -> ProductStatusFilter.COMPLETE
+
+                else -> productStatusFilter
+
+            }
+
+            applyProductFilter()
+
+        }
 
 
-        refreshStats()
+
+        refreshSessionCountLabels()
+
+        reconcileProductsFromSession(showBootOverlay = true)
 
 
 
         binding.startReadButton.setOnClickListener {
 
-            manuallyPaused = false
-
-            startReading()
-
-        }
-
-        binding.pauseReadButton.setOnClickListener {
-
-            manuallyPaused = true
-
-            stopReading()
-
-        }
-
-        binding.resumeReadButton.setOnClickListener {
-
-            manuallyPaused = false
-
-            startReading()
+            if (isReading) stopReading() else startReading()
 
         }
 
@@ -390,17 +420,13 @@ class EsfericaCountActivity : AppCompatActivity(), IOnNotifyCallback {
 
 
 
-    private fun refreshStats() {
+    private fun refreshSessionCountLabels() {
 
         val expected = session.expectedItems.size
 
-        val matched =
+        val matched = scannedUnique.count { it in expectedRfidSet }
 
-            EsfericaReconcileLocal.countMatchedUnique(session.expectedItems, scannedUnique.toList())
-
-        val offCatalog =
-
-            EsfericaReconcileLocal.countOffCatalogUnique(session.expectedItems, scannedUnique.toList())
+        val offCatalog = scannedUnique.size - matched
 
 
 
@@ -410,31 +436,90 @@ class EsfericaCountActivity : AppCompatActivity(), IOnNotifyCallback {
 
         binding.scannedOffCatalogText.text = getString(R.string.esferica_off_catalog_unique_label, offCatalog)
 
-        scheduleReconcileProducts()
+    }
+
+
+
+    /** Tras nueva lectura: solo KPI; la conciliación del desglose va en segundo plano (sin pisar overlay). */
+
+    private fun refreshStats() {
+
+        refreshSessionCountLabels()
+
+        val showBoot = binding.countBootOverlay.visibility == View.VISIBLE
+
+        if (showBoot) {
+
+            reconcileProductsFromSession(showBootOverlay = true)
+
+            return
+
+        }
+
+        reconcileDebounceJob?.cancel()
+
+        reconcileDebounceJob = lifecycleScope.launch {
+
+            kotlinx.coroutines.delay(240)
+
+            if (isDestroyed) return@launch
+
+            reconcileProductsFromSession(showBootOverlay = false)
+
+        }
 
     }
 
 
 
-    /** Conciliación puede ser pesada; overlay claro hasta tener el desglose listo. */
+    /**
 
-    private fun scheduleReconcileProducts() {
+     * Solo la primera entrada (overlay) anima barra **0→95** y acaba en **100** al cerrar.
 
-        binding.countBootOverlay.visibility = View.VISIBLE
+     * Mientras llegan RFIDs durante la carga, [refreshStats] debe volver con overlay ya visible (`true`)
 
-        binding.countBootLoadingText.setText(R.string.esferica_loading_count_session)
+     * para repetir datos correctos sin que lecturas iniciadas antes cancelen esta corrutina con `gone`.
+     */
+
+    private fun reconcileProductsFromSession(showBootOverlay: Boolean) {
 
         countBootFakeProgressJob?.cancel()
 
-        countBootFakeProgressJob = DeterminateLoadingProgress.startQuickRampThenHold(
+        if (!showBootOverlay) {
 
-            lifecycleScope,
+            val gen = ++reconcileGeneration
 
-            binding.countBootLinearProgress,
+            val capturedItems = session.expectedItems
 
-            binding.countBootProgressPercentText,
+            val scannedSnapshot = scannedUnique.toList()
 
-        )
+            countBootFakeProgressJob = lifecycleScope.launch {
+
+                val products = withContext(Dispatchers.Default) {
+
+                    EsfericaReconcileLocal.reconcile(capturedItems, scannedSnapshot)
+
+                        .products
+
+                        .orEmpty()
+
+                }
+
+                if (gen != reconcileGeneration) return@launch
+
+                reconciledProducts = products
+
+                refreshProductSearchAdapter()
+
+                applyProductFilter()
+
+            }
+
+            return
+
+        }
+
+
 
         val gen = ++reconcileGeneration
 
@@ -442,23 +527,103 @@ class EsfericaCountActivity : AppCompatActivity(), IOnNotifyCallback {
 
         val scannedSnapshot = scannedUnique.toList()
 
-        lifecycleScope.launch {
 
-            val products = withContext(Dispatchers.Default) {
 
-                EsfericaReconcileLocal.reconcile(capturedItems, scannedSnapshot)
+        if (showBootOverlay) {
 
-                    .products
+            binding.countBootOverlay.visibility = View.VISIBLE
 
-                    .orEmpty()
+            binding.countBootLoadingText.setText(R.string.esferica_loading_count_session)
 
-            }
+            binding.countBootLinearProgress.isIndeterminate = false
+
+            binding.countBootLinearProgress.setProgressCompat(0, false)
+
+            binding.countBootProgressPercentText.text = "0%"
+
+        }
+
+
+
+        countBootFakeProgressJob = lifecycleScope.launch {
+
+            val products =
+
+                if (showBootOverlay) {
+
+                    coroutineScope {
+
+                        val reconcileDeferred = async(Dispatchers.Default) {
+
+                            EsfericaReconcileLocal.reconcile(capturedItems, scannedSnapshot)
+
+                                .products
+
+                                .orEmpty()
+
+                        }
+
+
+
+                        val rampDeferred = async {
+
+                            DeterminateLoadingProgress.rampSegmentEaseOut(
+
+                                binding.countBootLinearProgress,
+
+                                binding.countBootProgressPercentText,
+
+                                from = 0,
+
+                                to = 95,
+
+                                durationMs = 320L,
+
+                            )
+
+                        }
+
+
+
+                        rampDeferred.await()
+
+                        reconcileDeferred.await()
+
+                    }
+
+                } else {
+
+                    withContext(Dispatchers.Default) {
+
+                        EsfericaReconcileLocal.reconcile(capturedItems, scannedSnapshot)
+
+                            .products
+
+                            .orEmpty()
+
+                    }
+
+                }
+
+
 
             if (gen != reconcileGeneration) return@launch
 
-            countBootFakeProgressJob?.cancel()
 
-            DeterminateLoadingProgress.snapToDone(
+
+            reconciledProducts = products
+
+            refreshProductSearchAdapter()
+
+            applyProductFilter()
+
+
+
+            if (!showBootOverlay) return@launch
+
+
+
+            DeterminateLoadingProgress.ensureHeldAt(
 
                 binding.countBootLinearProgress,
 
@@ -466,11 +631,17 @@ class EsfericaCountActivity : AppCompatActivity(), IOnNotifyCallback {
 
             )
 
-            reconciledProducts = products
 
-            refreshProductSearchAdapter()
 
-            applyProductFilter()
+            DeterminateLoadingProgress.flashFullProgress(
+
+                binding.countBootLinearProgress,
+
+                binding.countBootProgressPercentText,
+
+            )
+
+
 
             binding.countBootOverlay.visibility = View.GONE
 
@@ -582,7 +753,7 @@ class EsfericaCountActivity : AppCompatActivity(), IOnNotifyCallback {
 
         val exactChoice = productSearchChoices.find { it.label.equals(raw, ignoreCase = true) }?.dto
 
-        val filtered =
+        val base =
 
             when {
 
@@ -595,6 +766,34 @@ class EsfericaCountActivity : AppCompatActivity(), IOnNotifyCallback {
                     (p.code?.lowercase(Locale.getDefault())?.contains(ql) == true) ||
 
                         (p.description?.lowercase(Locale.getDefault())?.contains(ql) == true)
+
+                }
+
+            }
+
+        val filtered =
+
+            when (productStatusFilter) {
+
+                ProductStatusFilter.NOT_READ -> base.filter { (it.scannedQty ?: 0) <= 0 }
+
+                ProductStatusFilter.INCOMPLETE -> base.filter {
+
+                    val exp = it.expectedQty ?: 0
+
+                    val scn = it.scannedQty ?: 0
+
+                    exp > 0 && scn in 1 until exp
+
+                }
+
+                ProductStatusFilter.COMPLETE -> base.filter {
+
+                    val exp = it.expectedQty ?: 0
+
+                    val scn = it.scannedQty ?: 0
+
+                    exp > 0 && scn >= exp
 
                 }
 
@@ -622,9 +821,19 @@ class EsfericaCountActivity : AppCompatActivity(), IOnNotifyCallback {
 
     private fun persistScans() {
 
-        session = session.copy(scannedRfidsOrdered = scannedUnique.toList())
+        val scannedNow = scannedUnique.toList()
 
-        store.upsert(session)
+        session = session.copy(scannedRfidsOrdered = scannedNow)
+
+        persistDebounceJob?.cancel()
+
+        persistDebounceJob = lifecycleScope.launch(Dispatchers.IO) {
+
+            kotlinx.coroutines.delay(220)
+
+            store.updateScanned(sessionId, scannedUnique.toList())
+
+        }
 
         refreshStats()
 
@@ -698,43 +907,31 @@ class EsfericaCountActivity : AppCompatActivity(), IOnNotifyCallback {
 
     private fun updateReadButtons() {
 
-        when {
+        binding.startReadButton.visibility = View.VISIBLE
 
-            isReading -> {
+        if (isReading) {
 
-                binding.statusReadingText.text = getString(R.string.esferica_reading_running)
+            binding.statusReadingText.text = getString(R.string.esferica_reading_running)
 
-                binding.startReadButton.visibility = View.GONE
+            binding.startReadButton.setText(R.string.esferica_stop_reading)
 
-                binding.resumeReadButton.visibility = View.GONE
+            binding.startReadButton.backgroundTintList = ColorStateList.valueOf(
 
-                binding.pauseReadButton.visibility = if (isTriggerHoldMode) View.GONE else View.VISIBLE
+                ContextCompat.getColor(this, R.color.warning),
 
-            }
+            )
 
-            manuallyPaused -> {
+        } else {
 
-                binding.statusReadingText.text = getString(R.string.esferica_reading_paused)
+            binding.statusReadingText.text = getString(R.string.esferica_reading_stopped)
 
-                binding.startReadButton.visibility = View.GONE
+            binding.startReadButton.setText(R.string.esferica_start_reading)
 
-                binding.pauseReadButton.visibility = View.GONE
+            binding.startReadButton.backgroundTintList = ColorStateList.valueOf(
 
-                binding.resumeReadButton.visibility = View.VISIBLE
+                ContextCompat.getColor(this, R.color.primary_red),
 
-            }
-
-            else -> {
-
-                binding.statusReadingText.text = getString(R.string.esferica_reading_stopped)
-
-                binding.startReadButton.visibility = View.VISIBLE
-
-                binding.pauseReadButton.visibility = View.GONE
-
-                binding.resumeReadButton.visibility = View.GONE
-
-            }
+            )
 
         }
 
@@ -863,8 +1060,6 @@ class EsfericaCountActivity : AppCompatActivity(), IOnNotifyCallback {
             when (keyState.mKeyState.toInt()) {
 
                 0x01 -> {
-
-                    manuallyPaused = false
 
                     startReading()
 

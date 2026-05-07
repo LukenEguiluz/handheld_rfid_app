@@ -107,7 +107,11 @@ class EsfericaSelectionActivity : AppCompatActivity() {
         selectionFakeProgressJob?.cancel()
         lifecycleScope.launch {
             if (isDestroyed) return@launch
-            DeterminateLoadingProgress.snapToDone(
+            DeterminateLoadingProgress.ensureHeldAt(
+                binding.loadingLinearProgress,
+                binding.loadingProgressPercentText,
+            )
+            DeterminateLoadingProgress.flashFullProgress(
                 binding.loadingLinearProgress,
                 binding.loadingProgressPercentText,
             )

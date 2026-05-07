@@ -79,24 +79,6 @@
                     android:text="@string/esferica_start_reading"
                     android:backgroundTint="@color/primary_red" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/pauseReadButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:text="@string/esferica_pause_reading"
-                    android:backgroundTint="@color/warning"
-                    android:visibility="gone" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/resumeReadButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:text="@string/esferica_resume_reading"
-                    android:backgroundTint="@color/info"
-                    android:visibility="gone" />
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -125,6 +107,40 @@
                         android:textColorHint="@color/text_hint"
                         android:importantForAutofill="no" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/productStatusFilterGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    app:singleSelection="true"
+                    app:selectionRequired="true">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/filterNotReadButton"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/esferica_filter_not_read" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/filterIncompleteButton"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/esferica_filter_incomplete" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/filterCompleteButton"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/esferica_filter_complete" />
+
+                </com.google.android.material.button.MaterialButtonToggleGroup>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/productsBreakdownRecycler"
