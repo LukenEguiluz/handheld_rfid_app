@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.DoHealthHandheld.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="popupMenuStyle">@style/Widget.DoHealth.PopupMenu</item>
+        <item name="colorControlNormal">@color/white</item>
+    </style>
+
+    <style name="Theme.DoHealthHandheld.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Dark">
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/menu_popup_text_secondary</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="colorSurface">@color/menu_popup_surface</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="popupMenuStyle">@style/Widget.DoHealth.PopupMenu</item>
+    </style>
+
+    <style name="Widget.DoHealth.PopupMenu" parent="Widget.MaterialComponents.PopupMenu">
+        <item name="android:popupBackground">@drawable/popup_menu_bg</item>
+    </style>
+
+    <style name="ThemeOverlay.DoHealth.EsfericaClientWarehouseField" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="colorPrimary">@color/text_primary</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+    </style>
+
+    <!-- Toolbar -->
+    <style name="Widget.DoHealth.Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/primary_red</item>
+        <item name="titleTextColor">@color/white</item>
+        <item name="subtitleTextColor">@color/white</item>
+        <item name="android:theme">@style/Theme.DoHealthHandheld.AppBarOverlay</item>
+        <item name="popupTheme">@style/Theme.DoHealthHandheld.PopupOverlay</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <!-- Cards -->
+    <style name="Widget.DoHealth.Card" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">@dimen/card_corner_radius</item>
+        <item name="cardElevation">@dimen/card_elevation</item>
+        <item name="contentPadding">@dimen/padding_medium</item>
+    </style>
+
+    <style name="Widget.DoHealth.Card.Module" parent="Widget.DoHealth.Card">
+        <item name="cardBackgroundColor">@color/primary_gray</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="rippleColor">@color/primary_red_light</item>
+    </style>
+
+    <style name="Widget.DoHealth.Card.DeviceInfo" parent="Widget.DoHealth.Card">
+        <item name="cardBackgroundColor">@color/primary_gray</item>
+        <item name="strokeWidth">0dp</item>
+    </style>
+
+    <style name="Widget.DoHealth.Card.ListItem" parent="Widget.DoHealth.Card">
+        <item name="cardBackgroundColor">@color/background_white</item>
+        <item name="strokeColor">@color/outline_variant</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+
+    <style name="Widget.DoHealth.Button.Filter" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="strokeColor">@color/outline_variant</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="cornerRadius">@dimen/card_corner_radius</item>
+        <item name="checkedIcon">@null</item>
+    </style>
+
+    <!-- Botones -->
+    <style name="Widget.DoHealth.Button.Primary" parent="Widget.MaterialComponents.Button">
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="backgroundTint">@color/primary_red</item>
+        <item name="cornerRadius">@dimen/card_corner_radius</item>
+    </style>
+
+    <style name="Widget.DoHealth.Button.Secondary" parent="Widget.MaterialComponents.Button">
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="backgroundTint">@color/primary_gray</item>
+        <item name="cornerRadius">@dimen/card_corner_radius</item>
+    </style>
+
+    <style name="Widget.DoHealth.Button.ReadingActive" parent="Widget.DoHealth.Button.Primary">
+        <item name="backgroundTint">@color/warning</item>
+    </style>
+
+    <style name="Widget.DoHealth.Button.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textAllCaps">false</item>
+        <item name="strokeColor">@color/primary_red</item>
+        <item name="android:textColor">@color/primary_red</item>
+        <item name="cornerRadius">@dimen/card_corner_radius</item>
+    </style>
+
+    <!-- Texto -->
+    <style name="TextAppearance.DoHealth.Headline" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:textSize">@dimen/text_size_headline_lg</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <style name="TextAppearance.DoHealth.SectionTitle" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textSize">@dimen/text_size_headline</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <style name="TextAppearance.DoHealth.CardTitle" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textSize">@dimen/text_size_title</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextAppearance.DoHealth.CardSubtitle" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textColor">@color/text_on_secondary_muted</item>
+    </style>
+
+    <style name="TextAppearance.DoHealth.Label" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textSize">@dimen/text_size_label</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">0.04</item>
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
+    <style name="TextAppearance.DoHealth.KpiValue" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:textSize">@dimen/text_size_body_lg</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <style name="TextAppearance.DoHealth.StatusReading" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <style name="TextAppearance.DoHealth.CardTitle.Dark" parent="TextAppearance.DoHealth.CardTitle">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">@dimen/text_size_title</item>
+    </style>
+
+    <style name="TextAppearance.DoHealth.BodySecondary" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
+    <style name="TextAppearance.DoHealth.Chip" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textSize">@dimen/text_size_label</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">0.04</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <style name="Widget.DoHealth.Card.Config" parent="Widget.DoHealth.Card">
+        <item name="cardBackgroundColor">@color/surface_container_low</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="contentPadding">@dimen/padding_medium</item>
+    </style>
+
+    <style name="Widget.DoHealth.TextInput.Outlined" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/outline_variant</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+        <item name="hintTextColor">@color/text_secondary</item>
+    </style>
+</resources>

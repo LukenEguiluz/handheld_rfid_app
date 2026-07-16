@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <View
+        android:layout_width="@dimen/section_accent_width"
+        android:layout_height="24dp"
+        android:background="@drawable/bg_section_accent_bar" />
+
+    <TextView
+        android:id="@+id/sectionTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:text="@string/select_mode"
+        android:textAppearance="@style/TextAppearance.DoHealth.SectionTitle"
+        tools:text="Seleccionar Modo" />
+</LinearLayout>

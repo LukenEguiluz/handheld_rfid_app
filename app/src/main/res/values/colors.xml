@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Stitch / Material 3 — marca doHealth -->
+    <color name="primary_red">#DC143C</color>
+    <color name="primary_red_dark">#B1002C</color>
+    <color name="primary_red_light">#FF5252</color>
+    <color name="on_primary_container">#FFF1F0</color>
+
+    <color name="primary_gray">#5E5E5E</color>
+    <color name="primary_gray_dark">#424242</color>
+    <color name="primary_gray_light">#9E9E9E</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- Superficies M3 -->
+    <color name="background_light">#FCF9F8</color>
+    <color name="background_white">#FFFFFF</color>
+    <color name="background_gray">#F5F5F5</color>
+    <color name="surface_container">#F0EDED</color>
+    <color name="surface_container_high">#EAE7E7</color>
+    <color name="surface_container_low">#F6F3F2</color>
+
+    <!-- Texto -->
+    <color name="text_primary">#1B1C1C</color>
+    <color name="text_secondary">#5C3F3F</color>
+    <color name="text_hint">#916F6E</color>
+    <color name="text_on_secondary">#FFFFFF</color>
+    <color name="text_on_secondary_muted">#CCFFFFFF</color>
+
+    <!-- Estado -->
+    <color name="success">#4CAF50</color>
+    <color name="success_container">#E8F5E9</color>
+    <color name="error">#BA1A1A</color>
+    <color name="error_container">#FFDAD6</color>
+    <color name="warning">#FF9800</color>
+    <color name="warning_container">#FFF3E0</color>
+    <color name="info">#2196F3</color>
+    <color name="info_container">#E3F2FD</color>
+
+    <!-- Botones (alias) -->
+    <color name="button_primary">#DC143C</color>
+    <color name="button_primary_pressed">#B1002C</color>
+    <color name="button_secondary">#5E5E5E</color>
+    <color name="button_secondary_pressed">#424242</color>
+
+    <!-- Bordes y overlays -->
+    <color name="outline_variant">#E6BDBC</color>
+    <color name="card_stroke_esferica">#E6BDBC</color>
+    <color name="menu_popup_surface">#2C2C2C</color>
+    <color name="menu_popup_text_secondary">#B3FFFFFF</color>
+    <color name="color_background_floating_dark">#2E2F33</color>
+    <color name="loading_scrim">#B3EEEEEE</color>
+
+    <!-- Chips / acentos -->
+    <color name="section_accent_bar">#DC143C</color>
+    <color name="module_icon_bg">#DC143C</color>
+</resources>

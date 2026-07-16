@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scrollbars="vertical">
+
+    <RadioGroup
+        android:id="@+id/distanceRadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/padding_small">
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/presetFar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_target_min"
+            android:paddingVertical="@dimen/padding_small"
+            android:text="@string/rfid_preset_far"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_size_title"
+            android:textStyle="bold"
+            app:buttonTint="@color/primary_red" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:text="@string/rfid_preset_far_hint"
+            android:textAppearance="@style/TextAppearance.DoHealth.Label"
+            android:textAllCaps="false" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/presetMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_target_min"
+            android:paddingVertical="@dimen/padding_small"
+            android:text="@string/rfid_preset_medium"
+            android:textColor="@color/text_primary"
+            app:buttonTint="@color/primary_red" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:text="@string/rfid_preset_medium_hint"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_size_label" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/presetNear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_target_min"
+            android:paddingVertical="@dimen/padding_small"
+            android:text="@string/rfid_preset_near"
+            android:textColor="@color/text_primary"
+            app:buttonTint="@color/primary_red" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:text="@string/rfid_preset_near_hint"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_size_label" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/presetZero"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_target_min"
+            android:paddingVertical="@dimen/padding_small"
+            android:text="@string/rfid_preset_zero"
+            android:textColor="@color/text_primary"
+            app:buttonTint="@color/primary_red" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:text="@string/rfid_preset_zero_hint"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_size_label" />
+    </RadioGroup>
+</ScrollView>

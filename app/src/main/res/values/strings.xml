@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">doHealth Handheld</string>
+    
+    <!-- Splash -->
+    <string name="splash_loading">Preparando aplicación…</string>
+    
+    <!-- Conexión -->
+    <string name="connection_title">Conectar Dispositivo</string>
+    <string name="scanning_devices">Buscando dispositivos...</string>
+    <string name="no_devices_found">No se encontraron dispositivos</string>
+    <string name="connecting">Conectando...</string>
+    <string name="connected">Conectado</string>
+    <string name="disconnected">Desconectado</string>
+    <string name="connection_failed">Error al conectar</string>
+    <string name="bluetooth_not_enabled">Bluetooth no está activado</string>
+    <string name="enable_bluetooth">Activar Bluetooth</string>
+    <string name="scan_again">Buscar de nuevo</string>
+    <string name="device_name">Dispositivo: %1$s</string>
+    <string name="device_address">Dirección: %1$s</string>
+    
+    <!-- Modo de operación -->
+    <string name="select_mode">Seleccionar Modo</string>
+    <string name="mode_rfid">RFID</string>
+    <string name="mode_barcode">Código de Barras</string>
+    <string name="mode_continuous">Lectura Continua</string>
+    <string name="mode_continuous_description">Lector RFID continuo con webhook en tiempo real (tags desaparecen tras 10 s sin lectura)</string>
+    <string name="mode_esferica">ESFERICA</string>
+    <string name="mode_esferica_description">Historial de conteos físicos RFID (reanuda lecturas por cliente/almacén)</string>
+    <string name="mode_hgm">Conteo HGM banco de sangre</string>
+    <string name="mode_hgm_description">Conteo RFID con catálogo CSV/Excel (Unidad, SKU, Hemocomponente, Grupo ABO y Rh)</string>
+
+    <!-- HGM banco de sangre -->
+    <string name="hgm_sessions_title">Historial conteo HGM</string>
+    <string name="hgm_sessions_empty">No hay conteos guardados. Pulse «Nuevo conteo» para cargar un catálogo.</string>
+    <string name="hgm_new_count_session">Nuevo conteo</string>
+    <string name="hgm_session_delete_confirm_title">Eliminar conteo</string>
+    <string name="hgm_session_delete_confirm_message">¿Eliminar este conteo del historial?</string>
+    <string name="hgm_session_stats_line">Esperados: %1$d · Válidos: %2$d · Fuera catálogo: %3$d</string>
+    <string name="hgm_session_updated_fmt">Actualizado: %1$s</string>
+    <string name="hgm_import_title">Nuevo conteo HGM</string>
+    <string name="hgm_import_instructions">Cargue un CSV o Excel con el formato de plantilla HGM: Unidad, SKU, Hemocomponente, Grupo ABO y Rh (separado por comas). El SKU es texto ASCII del tag (ej. 0wBeDDTcTH); la app lo convierte a EPC hex para el match al leer.</string>
+    <string name="hgm_session_label_hint">Nombre del conteo (opcional)</string>
+    <string name="hgm_pick_catalog_file">Seleccionar CSV o Excel</string>
+    <string name="hgm_no_file_selected">Ningún archivo seleccionado</string>
+    <string name="hgm_start_count">Iniciar conteo RFID</string>
+    <string name="hgm_import_parsing">Leyendo catálogo…</string>
+    <string name="hgm_import_rows_ok">Unidades válidas en catálogo: %1$d</string>
+    <string name="hgm_import_source_rows">Filas leídas del archivo: %1$d</string>
+    <string name="hgm_import_rows_skipped">Filas omitidas: %1$d</string>
+    <string name="hgm_import_duplicate_sku_warning">SKU repetidos en archivo: %1$d (cada fila sigue siendo una unidad esperada)</string>
+    <string name="hgm_import_no_valid_rows">No hay filas válidas para contar</string>
+    <string name="hgm_physical_count_title">Conteo HGM banco de sangre</string>
+    <string name="hgm_loading_count_session">Preparando conteo y desglose…</string>
+    <string name="hgm_product_breakdown_title">Por hemocomponente y grupo ABO/Rh</string>
+    <string name="hgm_hemo_group_stats">Esperadas %1$d · Leídas %2$d · Faltan %3$d</string>
+    <string name="hgm_hemo_subgroup_count">%1$d grupos sanguíneos</string>
+    <string name="hgm_grupo_label">Grupo %1$s</string>
+    <string name="hgm_grupo_units_hint">%1$d unidades en este grupo</string>
+    <string name="hgm_import_loading">Leyendo catálogo…</string>
+    <string name="hgm_product_search_hint">Buscar hemocomponente o grupo…</string>
+    <string name="hgm_completed_codes_summary">Completados: %1$d / %2$d</string>
+    <string name="hgm_start_reading">Iniciar lectura RFID</string>
+    <string name="hgm_stop_reading">Detener lectura RFID</string>
+    <string name="hgm_reading_running">Lectura activa…</string>
+    <string name="hgm_reading_stopped">Lectura detenida — pulse iniciar</string>
+    <string name="hgm_read_error">Error de lectura: %1$s</string>
+    <string name="hgm_read_error_inline">Error: %1$s</string>
+    <string name="hgm_expected_label">Unidades esperadas: %1$d</string>
+    <string name="hgm_matched_unique_label">Unidades válidas contadas (en catálogo): %1$d</string>
+    <string name="hgm_off_catalog_unique_label">Lecturas únicas fuera del catálogo: %1$d</string>
+    <string name="hgm_view_off_catalog_tags">Ver etiquetas fuera de catálogo</string>
+    <string name="hgm_off_catalog_dialog_title">Etiquetas fuera de catálogo (%1$d)</string>
+    <string name="hgm_off_catalog_dialog_hint">Etiquetas leídas que no corresponden a ninguna unidad del catálogo cargado.</string>
+    <string name="hgm_off_catalog_dialog_empty">No hay lecturas fuera del catálogo.</string>
+    <string name="hgm_off_catalog_sku_unknown">SKU no decodificable</string>
+    <string name="hgm_export_csv">Exportar CSV — catálogo vs contados</string>
+    <string name="hgm_verify_tag_button">Verificar etiqueta</string>
+    <string name="hgm_verify_tag_title">Verificar etiqueta (contacto)</string>
+    <string name="hgm_verify_tag_hint">Lectura de verificación con potencia mínima (0 dBm). No suma al conteo. Acerque el lector a una sola etiqueta.</string>
+    <string name="hgm_verify_tag_stopped">Verificación detenida</string>
+    <string name="hgm_verify_tag_applying">Aplicando 0 dBm…</string>
+    <string name="hgm_verify_tag_running">Leyendo… acerque a la etiqueta</string>
+    <string name="hgm_verify_tag_start">Iniciar verificación</string>
+    <string name="hgm_verify_tag_stop">Detener verificación</string>
+    <string name="hgm_verify_tag_rfid_label">EPC (hex)</string>
+    <string name="hgm_verify_tag_ascii_label">ASCII (SKU)</string>
+    <string name="hgm_verify_tag_catalog_label">Catálogo</string>
+    <string name="hgm_verify_tag_empty">—</string>
+    <string name="hgm_verify_tag_catalog_pending">Aún no se ha leído ninguna etiqueta.</string>
+    <string name="hgm_verify_tag_catalog_none">No está en el catálogo cargado.</string>
+    <string name="hgm_verify_tag_ascii_unknown">No decodificable a ASCII</string>
+    <string name="hgm_verify_tag_catalog_match">En catálogo:\nHemocomponente: %1$s\nGrupo ABO/Rh: %2$s\nUnidad: %3$s</string>
+
+    <!-- ESFERICA — conteo físico -->
+    <string name="esferica_physical_count_title">Conteo físico RFID</string>
+    <string name="esferica_pick_client">Cliente</string>
+    <string name="esferica_pick_warehouse">Almacén</string>
+    <string name="esferica_api_base_hint">URL API ESFERICA — base (https://esferica.leyluz.com/)</string>
+    <string name="esferica_start_physical_count">Iniciar conteo</string>
+    <string name="esferica_retry_load">Reintentar carga</string>
+    <string name="esferica_must_select_client_warehouse">Seleccione cliente y almacén</string>
+    <string name="esferica_invalid_base_url">Indique una URL base válida</string>
+    <string name="esferica_start_reading">Iniciar lectura RFID</string>
+    <string name="esferica_stop_reading">Detener lectura RFID</string>
+    <string name="esferica_pause_reading">Pausar lectura</string>
+    <string name="esferica_resume_reading">Reanudar lectura</string>
+    <string name="esferica_recalculate">Recalcular</string>
+    <string name="esferica_clear_count">Limpiar conteo</string>
+    <string name="esferica_finish_count">Finalizar conteo</string>
+    <string name="esferica_expected_label">Piezas esperadas: %1$d</string>
+    <string name="esferica_read_unique_label">Piezas únicas leídas: %1$d</string>
+    <string name="esferica_matched_unique_label">Piezas válidas contadas (en inventario): %1$d</string>
+    <string name="esferica_off_catalog_unique_label">Lecturas únicas fuera del inventario cargado: %1$d</string>
+    <string name="esferica_product_breakdown_title">Por código de producto (faltan por leer)</string>
+    <string name="esferica_product_search_hint">Buscar código o descripción…</string>
+    <string name="esferica_filter_not_read">No leídos</string>
+    <string name="esferica_filter_incomplete">Incompletos</string>
+    <string name="esferica_filter_complete">Completados</string>
+    <string name="esferica_completed_codes_summary">Completados: %1$d / %2$d</string>
+    <string name="esferica_client_search_hint">Cliente — escribir para filtrar y elegir</string>
+    <string name="esferica_warehouse_search_hint">Almacén — escribir para filtrar y elegir</string>
+    <string name="esferica_loading_catalog">Cargando clientes y almacenes…</string>
+    <string name="esferica_loading_inventory">Descargando inventario esperado…</string>
+    <string name="esferica_loading_count_session">Preparando conteo y desglose por producto…</string>
+    <string name="esferica_export_expected_vs_counted_csv">Exportar CSV — esperados vs válidos contados</string>
+    <string name="esferica_reading_running">Lectura activa…</string>
+    <string name="esferica_reading_paused">Lectura en pausa</string>
+    <string name="esferica_reading_stopped">Lectura detenida — pulse iniciar</string>
+    <string name="esferica_read_error">Error de lectura: %1$s</string>
+    <string name="esferica_read_error_inline">Error: %1$s</string>
+    <string name="esferica_recalc_summary">Esperado %1$d | Leídas %2$d | Match %3$d | Falta %4$d | Sobrante %5$d</string>
+    <string name="esferica_clear_confirm">¿Borrar todas las etiquetas leídas en esta sesión?</string>
+    <string name="esferica_unknown_rfids">Sobrantes no identificados</string>
+    <string name="esferica_surplus_identified">Sobrantes identificados</string>
+    <string name="esferica_expand_detail">Expandir detalle</string>
+    <string name="esferica_missing_rfids">RFIDs faltantes</string>
+    <string name="esferica_read_rfids">RFIDs leídos (match)</string>
+    <string name="esferica_extra_rfids_section">RFIDs sobrantes (producto)</string>
+    <string name="esferica_export_csv">Exportar CSV</string>
+    <string name="esferica_export_xlsx">Exportar Excel</string>
+    <string name="esferica_back_home">Al menú</string>
+    <string name="esferica_results_title">Resultado del conteo</string>
+    <string name="esferica_row_expected_fmt">Esp. %1$d</string>
+    <string name="esferica_row_read_fmt">Leíd. %1$d</string>
+    <string name="esferica_row_miss_fmt">Fal. %1$d</string>
+    <string name="esferica_row_extra_fmt">Sob. %1$d</string>
+    <string name="esferica_sum_expected_fmt">Esperado\n%1$d</string>
+    <string name="esferica_sum_read_fmt">Leído\n%1$d</string>
+    <string name="esferica_sum_match_fmt">Match\n%1$d</string>
+    <string name="esferica_sum_miss_fmt">Falta\n%1$d</string>
+    <string name="esferica_sum_extra_fmt">Sobr.\n%1$d</string>
+    <string name="esferica_results_products_section">Detalle por producto</string>
+    <string name="esferica_inventory_empty">No hay líneas de inventario DISPONIBLE para esta selección</string>
+    <string name="esferica_catalog_load_error">No se pudo conectar con la API ESFERICA. Revise la URL y la red.</string>
+    <string name="esferica_sessions_title">Conteos físicos ESFERICA</string>
+    <string name="esferica_sessions_empty">No hay lecturas guardadas.\nPulse «Nuevo conteo» para elegir cliente y almacén, o pulse una fila para reanudar.</string>
+    <string name="esferica_new_count_session">Nuevo conteo</string>
+    <string name="esferica_session_stats_line">Esperadas: %1$d · En inventario (match): %2$d · Fuera de inventario: %3$d</string>
+    <string name="esferica_session_updated_fmt">Último cambio: %1$s</string>
+    <string name="esferica_session_status_open">Conteo abierto · lectura en curso o pausada</string>
+    <string name="esferica_session_status_has_result">Con resultado guardado · puede exportar</string>
+    <string name="esferica_session_delete_confirm_title">Eliminar conteo</string>
+    <string name="esferica_session_delete_confirm_message">Se borrará esta sesión guardada en el equipo.</string>
+    <string name="mode_rfid_description">Lectura de tags RFID UHF</string>
+    <string name="mode_barcode_description">Escaneo de códigos de barras y QR</string>
+
+    <!-- Relación por Códigos -->
+    <string name="module_relacion_codigos">Relación por Códigos</string>
+    <string name="module_relacion_codigos_description">Relaciona Producto → RFID y guarda historial</string>
+    <string name="relacion_sessions_title">Historial de Lecturas</string>
+    <string name="relacion_new_session">Nueva lectura</string>
+    <string name="relacion_resume">Reanudar</string>
+    <string name="relacion_delete">Eliminar</string>
+    <string name="status_pending">Pendiente</string>
+    <string name="status_active">Activo</string>
+    <string name="status_complete">Completo</string>
+    <string name="status_incomplete">Incompleto</string>
+    <string name="status_extra">Extra</string>
+    <string name="rfid_config_section_power">Potencia y Lectura</string>
+    <string name="rfid_config_section_timing">Filtros y Temporización</string>
+    <string name="rfid_config_section_modes">Modos de Trabajo</string>
+    <string name="relacion_no_sessions">No hay lecturas guardadas.\nCrea una nueva para comenzar.</string>
+    <string name="relacion_session_name_default">Lectura %1$s</string>
+    <string name="relacion_step_product">Paso 1: lee el PRODUCTO (código de barras)</string>
+    <string name="relacion_step_rfid">Paso 2: lee el RFID (potencia mínima, espera entre lecturas)</string>
+    <string name="relacion_step_second_barcode">Paso 2: lee la etiqueta RFID impresa como código de barras</string>
+    <string name="relacion_second_read_mode">Segundo valor</string>
+    <string name="relacion_second_read_rfid">RFID</string>
+    <string name="relacion_second_read_barcode">Código de barras</string>
+    <string name="relacion_item_second_rfid">RFID:</string>
+    <string name="relacion_item_second_barcode">Código 2:</string>
+    <string name="relacion_current_product">Producto actual:</string>
+    <string name="relacion_keep_product">Mantener producto para múltiples RFID</string>
+    <string name="relacion_clear_product">Cambiar producto</string>
+    <string name="relacion_start">Iniciar lectura</string>
+    <string name="relacion_stop">Detener lectura</string>
+    <string name="relacion_relations_count">Relaciones: %1$d</string>
+    <string name="relacion_list_section">Relaciones registradas</string>
+    <string name="relacion_empty_list">No hay relaciones todavía.\nInicia la lectura para comenzar.</string>
+    <string name="relacion_last_updated">Actualizado: %1$s</string>
+    <string name="relacion_confirm_delete_title">Eliminar lectura</string>
+    <string name="relacion_confirm_delete_message">Esto borrará el historial de esta lectura.</string>
+    <string name="relacion_invalid_barcode">Código de producto inválido</string>
+    <string name="relacion_invalid_rfid">RFID inválido</string>
+    <string name="relacion_rfid_duplicate">Ese RFID ya está registrado</string>
+    <string name="relacion_second_label_duplicate">Esa etiqueta (segundo código) ya está registrada</string>
+    <string name="relacion_second_hex_invalid">El segundo código solo puede contener dígitos hex (0-9, A-F)</string>
+    <string name="relacion_export_txt">Exportar TXT</string>
+    <string name="relacion_export_txt_title">Guardar TXT</string>
+    <string name="relacion_export_success">TXT guardado</string>
+    <string name="relacion_export_error">No se pudo exportar</string>
+    <string name="relacion_edit">Editar</string>
+    <string name="relacion_edit_second_title">Editar segundo valor</string>
+    <string name="relacion_edit_second_hint">Solo hexadecimal (0-9, A-F)</string>
+    <string name="relacion_row_menu_title">Relación</string>
+    <string name="relacion_delete_one_confirm">¿Eliminar esta relación?</string>
+    
+    <!-- Inventario -->
+    <string name="inventory_title">Inventario</string>
+    <string name="start_inventory">Iniciar Inventario</string>
+    <string name="stop_inventory">Detener Inventario</string>
+    <string name="inventory_running">Inventario en curso...</string>
+    <string name="inventory_stopped">Inventario detenido</string>
+    <string name="inventory_list_section">Lecturas en vivo</string>
+    <string name="inventory_empty_list">No hay lecturas todavía.\nInicia el inventario para comenzar.</string>
+    <string name="tags_count">Tags: %1$d</string>
+    <string name="products_count">Productos: %1$d</string>
+    <string name="scans_count">Escaneos: %1$d</string>
+    <string name="clear_data">Limpiar Datos</string>
+    <string name="export_data">Exportar</string>
+    <string name="send_data">Enviar a Servidor</string>
+    <string name="no_data">No hay datos para exportar</string>
+    
+    <!-- Configuración RFID -->
+    <string name="config_title">Configuración RFID</string>
+    <string name="rfid_preset_menu_title">Distancia</string>
+    <string name="rfid_preset_dialog_title">Distancia de lectura</string>
+    <string name="rfid_preset_far">Lejos — inventario masivo</string>
+    <string name="rfid_preset_medium">Distancia media — inventario masivo</string>
+    <string name="rfid_preset_near">Muy cercana — inventario masivo</string>
+    <string name="rfid_preset_zero">0 dBm — una etiqueta</string>
+    <string name="rfid_preset_far_hint">Máxima potencia — inventario masivo a larga distancia</string>
+    <string name="rfid_preset_medium_hint">Pasillo o habitación estándar</string>
+    <string name="rfid_preset_near_hint">Inventario masivo a corta distancia</string>
+    <string name="rfid_preset_zero_hint">Contacto directo — lectura de una sola etiqueta</string>
+    <string name="rfid_preset_applied">Configuración aplicada: %1$s</string>
+    <string name="device_info_title">Información del dispositivo</string>
+    <string name="device_label">Dispositivo</string>
+    <string name="device_address_label">Dirección</string>
+    <string name="power_level">Potencia RF (dBm)</string>
+    <string name="power_level_hint">Rango: 0-26 dBm</string>
+    <string name="q_value">Valor Q</string>
+    <string name="session">Sesión</string>
+    <string name="antenna">Antena</string>
+    <string name="save_config">Guardar Configuración</string>
+    <string name="load_config">Cargar Configuración</string>
+    <string name="config_saved">Configuración guardada</string>
+    <string name="config_error">Error al guardar configuración</string>
+    
+    <!-- Descripciones de configuración -->
+    <string name="power_level_desc">Controla la potencia de salida del transmisor RFID. Mayor potencia = mayor rango de lectura, pero más consumo de batería. Rango: 0-33 dBm</string>
+    <string name="q_value_desc">Valor inicial Q para el algoritmo de anti-colisión. Q ≈ log2(cantidad de tags). Q=4 para ~16 tags, Q=7 para ~128 tags. Rango: 0-15</string>
+    <string name="session_desc">Sesión RFID a usar para el inventario. 0=S0, 1=S1, 2=S2, 3=S3. Rango: 0-3</string>
+    <string name="antenna_desc">Selección de antenas activas (bitmask). 1=Antena 1, 2=Antena 2, 3=Antenas 1 y 2, etc.</string>
+    <string name="filter_time_desc">Tiempo durante el cual se filtran tags duplicados después de una lectura exitosa. 0=sin filtro. Rango: 0-255 segundos</string>
+    <string name="buzzer_time_desc">Duración del sonido del buzzer al completar operación. Unidad: 10ms. 0=sin sonido. Rango: 0-255</string>
+    <string name="polling_interval_desc">Intervalo entre consultas de inventario. Unidad: 10ms. Rango: 0-255</string>
+    <string name="work_mode_desc">Modo de operación: 0=Respuesta (espera comandos), 1=Activo (envía datos automáticamente), 2=Trigger (controlado por gatillo)</string>
+    <string name="inquiry_area_desc">Área de memoria del tag a consultar: EPC, TID, USER o combinaciones</string>
+    
+    <!-- Exportación -->
+    <string name="export_success">Datos exportados exitosamente</string>
+    <string name="export_error">Error al exportar datos</string>
+    <string name="export_excel">Exportar a Excel</string>
+    <string name="export_csv">Exportar a CSV</string>
+    
+    <!-- Envío a servidor -->
+    <string name="send_success">Datos enviados exitosamente</string>
+    <string name="send_error">Error al enviar datos</string>
+    <string name="send_loading">Enviando datos...</string>
+    <string name="server_url">URL del Servidor</string>
+    <string name="server_url_hint">https://api.ejemplo.com/inventory</string>
+
+    <!-- Lectura continua / Webhook -->
+    <string name="continuous_list_section">Tags en campo (últimos 10 s)</string>
+    <string name="continuous_empty_list">No hay tags RFID detectados.\nInicie la lectura para comenzar.</string>
+    <string name="continuous_reads_count">Lecturas: %1$d</string>
+    <string name="continuous_webhook_disabled">Webhook: no configurado</string>
+    <string name="continuous_webhook_enabled">Webhook: %1$s</string>
+    <string name="continuous_webhook_config">Configurar Webhook</string>
+    <string name="continuous_webhook_config_desc">Configure el endpoint Epione, API key e identificadores. System ID y Event ID se generan del dispositivo y lector BLE; puede editarlos o restaurarlos.</string>
+    <string name="continuous_webhook_url_hint">URL del webhook (POST)</string>
+    <string name="continuous_webhook_api_key_hint">API Key (header X-API-Key)</string>
+    <string name="continuous_webhook_event_id_hint">Event ID (evt_…, único por dispositivo)</string>
+    <string name="continuous_webhook_system_id_hint">System ID (UUID único por dispositivo)</string>
+    <string name="continuous_webhook_system_name_hint">Nombre del sistema</string>
+    <string name="continuous_webhook_reader_id_hint">Reader ID (ej. IHT-2)</string>
+    <string name="continuous_webhook_test">Probar conexión</string>
+    <string name="continuous_webhook_send_mock">Enviar payload de prueba (mock)</string>
+    <string name="continuous_webhook_url_required">Ingrese la URL del webhook</string>
+    <string name="continuous_webhook_sending">Enviando…</string>
+    <string name="continuous_webhook_ok">Enviado correctamente</string>
+    <string name="continuous_webhook_settings_button">Webhook lectura continua</string>
+    <string name="continuous_webhook_restore_device_ids">Restaurar IDs desde dispositivo</string>
+    <string name="continuous_webhook_ids_restored">IDs regenerados desde este dispositivo</string>
+    <string name="continuous_webhook_verify">Verificar POST vs GET</string>
+    <string name="continuous_webhook_verifying">Enviando mock y consultando GET…</string>
+    <string name="continuous_webhook_verify_ok">Verificación OK</string>
+    <string name="continuous_webhook_verify_fail">Verificación con diferencias</string>
+
+    <!-- Historial -->
+    <string name="history_title_menu">Historial</string>
+    <string name="history_title">Historial %1$s</string>
+    <string name="history_count">Registros: %1$d</string>
+    <string name="history_empty">No hay lecturas guardadas.</string>
+    <string name="history_section_epc">Lecturas recientes</string>
+    <string name="history_clear_title">Limpiar historial</string>
+    <string name="history_clear_message">Esto eliminará todas las lecturas guardadas.</string>
+    <string name="history_export_success">Historial exportado</string>
+    <string name="history_export_error">No se pudo exportar el historial</string>
+
+    <!-- Sesiones Inventario -->
+    <string name="inventory_sessions_title">Sesiones %1$s</string>
+    <string name="inventory_new_session">Nueva sesión</string>
+    <string name="inventory_no_sessions">No hay sesiones guardadas.\nCrea una nueva para comenzar.</string>
+    
+    <!-- General -->
+    <string name="ok">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="retry">Reintentar</string>
+    <string name="settings">Configuración</string>
+    <string name="back">Atrás</string>
+    <string name="menu">Menú</string>
+</resources>
+

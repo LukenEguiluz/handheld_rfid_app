@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_rfid_distance"
+        android:title="@string/rfid_preset_menu_title"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_export_hgm_csv"
+        android:title="@string/hgm_export_csv"
+        app:showAsAction="never" />
+</menu>

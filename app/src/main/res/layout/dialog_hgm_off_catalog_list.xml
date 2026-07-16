@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/padding_small">
+
+    <TextView
+        android:id="@+id/offCatalogDialogHintText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/padding_medium"
+        android:paddingBottom="@dimen/padding_small"
+        android:text="@string/hgm_off_catalog_dialog_hint"
+        android:textAppearance="@style/TextAppearance.DoHealth.BodySecondary" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/offCatalogTagsRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:maxHeight="360dp"
+        android:paddingBottom="@dimen/padding_small"
+        android:scrollbars="vertical" />
+</LinearLayout>

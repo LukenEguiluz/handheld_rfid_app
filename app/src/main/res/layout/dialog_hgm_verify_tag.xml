@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/padding_medium"
+    android:paddingTop="@dimen/padding_small"
+    android:paddingBottom="@dimen/padding_large">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:text="@string/hgm_verify_tag_title"
+        android:textAppearance="@style/TextAppearance.DoHealth.SectionTitle" />
+
+    <TextView
+        android:id="@+id/verifyHintText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hgm_verify_tag_hint"
+        android:textAppearance="@style/TextAppearance.DoHealth.BodySecondary" />
+
+    <TextView
+        android:id="@+id/verifyStatusText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:gravity="center"
+        android:text="@string/hgm_verify_tag_stopped"
+        android:textAppearance="@style/TextAppearance.DoHealth.CardTitle.Dark" />
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.DoHealth.Card.ListItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_medium">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/hgm_verify_tag_rfid_label"
+                android:textAppearance="@style/TextAppearance.DoHealth.Label" />
+
+            <TextView
+                android:id="@+id/verifyRfidHexText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_xsmall"
+                android:fontFamily="monospace"
+                android:text="@string/hgm_verify_tag_empty"
+                android:textAppearance="@style/TextAppearance.DoHealth.BodySecondary"
+                tools:text="E2801170000002035B0A1B2C" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="@string/hgm_verify_tag_ascii_label"
+                android:textAppearance="@style/TextAppearance.DoHealth.Label" />
+
+            <TextView
+                android:id="@+id/verifyAsciiText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_xsmall"
+                android:fontFamily="monospace"
+                android:text="@string/hgm_verify_tag_empty"
+                android:textAppearance="@style/TextAppearance.DoHealth.CardTitle.Dark"
+                tools:text="0wBeDDTcTH" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="@string/hgm_verify_tag_catalog_label"
+                android:textAppearance="@style/TextAppearance.DoHealth.Label" />
+
+            <TextView
+                android:id="@+id/verifyCatalogText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_xsmall"
+                android:text="@string/hgm_verify_tag_catalog_pending"
+                android:textAppearance="@style/TextAppearance.DoHealth.BodySecondary"
+                tools:text="Hemocomponente: Aféresis plaquetaria\nGrupo ABO/Rh: O Rh positivo\nUnidad: 001" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/verifyStartStopButton"
+        style="@style/Widget.DoHealth.Button.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_marginTop="@dimen/margin_large"
+        android:text="@string/hgm_verify_tag_start" />
+</LinearLayout>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Widget.DoHealth.Card.Module"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin_medium">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_medium">
+
+        <TextView
+            android:id="@+id/sessionContextText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.DoHealth.CardSubtitle" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/expectedCountText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.DoHealth.CardSubtitle" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="@dimen/margin_small"
+                android:alpha="0.25"
+                android:background="@color/white" />
+
+            <TextView
+                android:id="@+id/scannedMatchedCountText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.DoHealth.CardSubtitle" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/scannedOffCatalogText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:alpha="0.85"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.DoHealth.Label"
+            android:textColor="@color/text_on_secondary_muted" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/viewOffCatalogButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_xsmall"
+            android:enabled="false"
+            android:text="@string/hgm_view_off_catalog_tags"
+            android:textColor="@color/white"
+            app:rippleColor="@color/primary_red_light" />
+
+        <TextView
+            android:id="@+id/statusReadingText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.DoHealth.CardTitle" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/startReadButton"
+            style="@style/Widget.DoHealth.Button.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:text="@string/esferica_start_reading" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

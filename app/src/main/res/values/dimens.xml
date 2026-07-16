@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_xsmall">4dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_medium">16dp</dimen>
+    <dimen name="margin_large">24dp</dimen>
+    <dimen name="margin_xlarge">32dp</dimen>
+    <dimen name="gutter">12dp</dimen>
+
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="padding_medium">16dp</dimen>
+    <dimen name="padding_large">24dp</dimen>
+    <dimen name="padding_module_card">20dp</dimen>
+
+    <dimen name="button_height">56dp</dimen>
+    <dimen name="touch_target_min">48dp</dimen>
+    <dimen name="card_corner_radius">12dp</dimen>
+    <dimen name="card_elevation">4dp</dimen>
+    <dimen name="card_stroke_width_status">2dp</dimen>
+    <dimen name="dialog_corner_radius">28dp</dimen>
+    <dimen name="module_icon_container_size">48dp</dimen>
+    <dimen name="module_icon_size">24dp</dimen>
+    <dimen name="section_accent_width">4dp</dimen>
+    <dimen name="device_card_accent_width">4dp</dimen>
+
+    <!-- Tipografía Stitch -->
+    <dimen name="text_size_label">12sp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_medium">14sp</dimen>
+    <dimen name="text_size_body_lg">16sp</dimen>
+    <dimen name="text_size_title">18sp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
+    <dimen name="text_size_headline">20sp</dimen>
+    <dimen name="text_size_headline_lg">22sp</dimen>
+    <dimen name="text_size_xlarge">24sp</dimen>
+    <dimen name="text_size_display">34sp</dimen>
+</resources>
