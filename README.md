@@ -56,11 +56,15 @@ Inventario en vivo pensado para integración Epione:
 
 Configuración del webhook: menú ⋮ de Lectura continua, o **Configuración → Webhook lectura continua**.
 
+Para que el webhook funcione bien hay que configurar la **API key** (y revisar URL / IDs) en esa pantalla. Sin API key el servidor puede rechazar los POST/GET.
+
 ### Código de barras
 Escaneo en modo scanhead. Cuenta repeticiones del mismo código.
 
 ### ESFERICA
-Conteo físico por cliente/almacén contra la API ESFERICA (base por defecto `https://esferica.leyluz.com/`). Endpoints usados: `clients`, `warehouses`, `inventory`, `inventory/reconcile`, `rfid/lookup`.
+Conteo físico por cliente/almacén contra la API ESFERICA. Endpoints usados: `clients`, `warehouses`, `inventory`, `inventory/reconcile`, `rfid/lookup`.
+
+La URL base de ESFERICA **no viene lista para producción**: hay que obtenerla del equipo que administra ese backend e ingresarla en la pantalla de selección (cliente/almacén) antes de contar. Sin esa información el módulo no puede hablar con el servidor.
 
 ### HGM (banco de sangre)
 Conteo RFID frente a un catálogo CSV/Excel (Unidad, SKU, Hemocomponente, Grupo ABO/Rh). El SKU ASCII del archivo se convierte a EPC hex para el match.
@@ -82,7 +86,7 @@ Parámetros RF del lector (potencia, Q, sesión, antena, filtro, buzzer, polling
 | POST | `https://api.dohealth-epione.com/epione-core-api/epione_event/receive_inventory` |
 | GET | `https://api.dohealth-epione.com/epione-core-api/epione_event/inventory/get/{event_id}` |
 
-Auth: header `X-API-Key` (configurable en la app).
+Auth: header `X-API-Key`. **Hay que cargar la API key en la app**; sin ella la integración queda incompleta (lecturas locales sí, envíos al servidor no fiables o rechazados).
 
 ### Identificadores
 
@@ -173,13 +177,23 @@ UUIDs BLE del servicio: `ffe0` / write `ffe3` / notify `ffe4` (ver `Constants.kt
 
 ---
 
+## Configuración requerida (no incluida en el repo)
+
+| Qué | Dónde | Notas |
+|-----|--------|--------|
+| API key del webhook Epione | Lectura continua → Configurar webhook (o Configuración) | Necesaria para POST/GET; pedirla a quien administra Epione |
+| URL base ESFERICA | Pantalla de selección ESFERICA | Pedir host/credenciales al equipo del backend; no hay URL de producción embebida en la entrega |
+| System ID / Event ID / Reader ID | Misma pantalla del webhook | Se pueden generar del dispositivo o fijar a mano |
+
+Las credenciales no viajan en el código a propósito.
+
 ## Notas para quien toma el proyecto
 
 - `local.properties` es de cada máquina; no lo subas.
 - Jetifier está apagado a propósito: el AAR del SDK no pasa por Jetifier (Java 21).
-- La URL genérica `api.dohealth.com/inventory` del módulo RFID clásico es distinta del webhook Epione; no las mezclar.
+- La URL genérica de envío del módulo RFID clásico es distinta del webhook Epione; no las mezclar.
 - Lectura continua no guarda sesiones: es estado en memoria + push al webhook.
-- Para validar integración Epione: configurar API key → mock → **Verificar POST vs GET**.
+- Para validar Epione: poner API key → mock → **Verificar POST vs GET**.
 
 ---
 

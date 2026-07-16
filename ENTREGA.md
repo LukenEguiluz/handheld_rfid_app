@@ -12,7 +12,7 @@
 - SDK CF embebido en `app/libs/`
 - `README.md` con arquitectura, módulos e integración Epione
 
-No se incluye: keystore de firma, `local.properties`, ni credenciales de API (la API key se configura en la app).
+No se incluye: keystore de firma, `local.properties`, ni credenciales (API keys, URL de ESFERICA de producción).
 
 ## Cómo verificar que abre
 
@@ -30,18 +30,25 @@ Si falta el AAR o Jetifier está activo, la sync falla: ver sección de requisit
 | Conexión BLE + standby | Operativo |
 | Inventario RFID / barcode + sesiones | Operativo |
 | Lectura continua + expiración 10 s | Operativo |
-| Webhook Epione POST/GET + pruebas en app | Operativo |
-| ESFERICA (clientes, almacenes, reconcile) | Operativo |
+| Webhook Epione POST/GET + pruebas en app | Operativo (requiere API key) |
+| ESFERICA (clientes, almacenes, reconcile) | Operativo (requiere URL/datos del backend) |
 | HGM (catálogo CSV/Excel) | Operativo |
 | Relación por códigos | Operativo |
 | Config RF + presets de distancia | Operativo |
 
-## Integración pendiente del lado servidor
+## Información que debe aportar quien recibe el proyecto
 
-- Validar API key de Epione en el entorno real.
-- Confirmar que el GET `/inventory/get/{event_id}` devuelve el mismo contrato que el POST (la app ya tiene botón de verificación).
-- Ajustar System ID / Event ID / Reader ID por instalación si no se usan los generados por dispositivo.
+Antes de usar lectura continua / Epione en serio:
+
+1. **API key** del webhook (header `X-API-Key`) — configurarla en la app. Sin ella los envíos fallan o no autentican.
+2. Confirmar con backend que el GET de inventario por `event_id` responde con el mismo contrato que el POST.
+3. Opcional: System ID, Event ID y Reader ID fijos por instalación (si no, se usan los generados del dispositivo).
+
+Para el módulo ESFERICA:
+
+1. **URL base de la API** y cualquier dato de acceso que use ese entorno — hay que ingresarlos en la app; no vienen definidos en esta entrega.
+2. Acceso a clientes/almacenes de prueba si aplica.
 
 ## Documentación
 
-Todo el detalle técnico está en `README.md`. Este archivo es solo la hoja de entrega.
+Detalle técnico en `README.md`. Este archivo es la hoja de entrega.

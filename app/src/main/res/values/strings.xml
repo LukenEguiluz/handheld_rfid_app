@@ -96,7 +96,7 @@
     <string name="esferica_physical_count_title">Conteo físico RFID</string>
     <string name="esferica_pick_client">Cliente</string>
     <string name="esferica_pick_warehouse">Almacén</string>
-    <string name="esferica_api_base_hint">URL API ESFERICA — base (https://esferica.leyluz.com/)</string>
+    <string name="esferica_api_base_hint">URL API ESFERICA (base, con https:// y barra final)</string>
     <string name="esferica_start_physical_count">Iniciar conteo</string>
     <string name="esferica_retry_load">Reintentar carga</string>
     <string name="esferica_must_select_client_warehouse">Seleccione cliente y almacén</string>
